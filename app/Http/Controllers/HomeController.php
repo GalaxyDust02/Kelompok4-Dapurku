@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function dashboard(){
+        return view('home/dashboard');
+    }
+
+    public function detailmenu(){
+        return view('home/detailmenu');
+    }
+
+
+}
