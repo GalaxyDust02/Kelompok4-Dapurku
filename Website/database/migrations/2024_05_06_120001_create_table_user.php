@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string("indonesian_food_id")->nullable();
+            $table->string("italian_food_id")->nullable();
+            $table->string("japanese_food_id")->nullable();
+            $table->string("western_food_id")->nullable();
             $table->timestamps();
         });
     }
