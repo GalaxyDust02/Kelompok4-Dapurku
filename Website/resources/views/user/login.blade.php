@@ -27,7 +27,7 @@
                             <input type="password" class="form-control" name="password" placeholder="Masukkan kata sandi" required>
                         </div>
                         <div class="form-button-group">
-                            <a href="forgotpsw" class="float-end">Lupa kata sandi?</a>
+                            <a href="{{route('forgotpassword')}}" class="float-end">Lupa kata sandi?</a>
                             <button type="submit" class="btn btn-primary submit-button">Masuk</button>
                         </div>
                     </form>

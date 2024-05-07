@@ -4,6 +4,7 @@ use App\Controllers\dapurkuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades;
 
 Auth::routes();
 
@@ -22,6 +23,11 @@ Route::get('login', [UserController::class, 'login'])->name('login');
 Route::post('login', [UserController::class, 'login_action'])->name('login.action');
 Route::get('logout', [UserController::class, 'logout'])->name('logout');
 
+#forgot password
+Route::get('forgotpassword', [UserController::class, 'forgotpassword'])->name('forgotpassword');
+Route::post('forgotpassword', [UserController::class, 'forgotpassword_action'])->name('forgotpassword.action');
+Route::get('resetpassword/{token}', [UserController::class, 'resetpassword'])->name('resetpassword');
+Route::post('resetpassword', [UserController::class, 'resetpassword_action'])->name('resetpassword.action');
 
 #home
 Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');

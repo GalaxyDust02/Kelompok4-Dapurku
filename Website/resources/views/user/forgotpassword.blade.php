@@ -18,12 +18,13 @@
                         </a>
                         <h3 class="card-title text-center mb-3">Lupa Kata Sandi</h3>
                         <p class="text-muted text-center">Masukkan email Anda yang terdaftar untuk melakukan reset kata sandi.</p>
-                        <form>
+                        <form method="POST" action="{{route('forgotpassword.action')}}">
+                            @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" placeholder="Masukkan email">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block" onclick="window.location.replace('{{route('resetpsw')}}')">Selanjutnya</button>
+                            <button type="submit" class="btn btn-primary btn-block">Selanjutnya</button>
                         </form>
                     </div>
                 </div>
