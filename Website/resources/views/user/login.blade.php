@@ -38,7 +38,7 @@
                         <a href="home/dashboard"><img src="images/facebook.png" alt="Facebook"></a>
                         <a href="home/'dashboard"><img src="images/google.png" alt="Google"></a>
                     </div>
-                    <p class="text-center small-secondary">Belum punya akun? <a href="{{route('user/register')}}">Daftar</a></p>
+                    <p class="text-center small-secondary">Belum punya akun? <a href="{{route('register')}}">Daftar</a></p>
                 </div>
             </div>
         </div>

@@ -46,7 +46,7 @@
                         <a href="home/dashboard"><img src="images/facebook.png" alt="Facebook"></a>
                         <a href="home/dashboard"><img src="images/google.png" alt="Google"></a>
                     </div>
-                    <p class="text-center small-secondary">Sudah punya akun? <a href="{{route('user/login')}}">Masuk</a></p>
+                    <p class="text-center small-secondary">Sudah punya akun? <a href="{{route('login')}}">Masuk</a></p>
                 </div>
             </div>
         </div>
