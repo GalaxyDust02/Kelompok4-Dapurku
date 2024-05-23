@@ -668,5 +668,148 @@ form {
 /*Stop css confirmrst*/
 
 /* Start CSS Detail Menu */
+/* Basic Styling */
+body {
+    font-family: sans-serif;
+}
 
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    background-color: #f0f0f0;
+    padding: 10px 0;
+}
+
+.logo {
+    float: left;
+    margin-right: 20px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.search-form {
+    float: left;
+    margin-right: 20px;
+}
+
+.user-actions {
+    float: right;
+}
+
+.user-actions a,
+.user-actions button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-left: 10px;
+    background-color: #3490dc;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+
+/* Recipe Listing */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Recipe Details */
+.recipe-details {
+    margin-top: 20px;
+}
+
+.recipe-meta {
+    margin-bottom: 15px;
+}
+
+.recipe-meta span {
+    margin-right: 15px;
+}
+
+.recipe-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.rating-and-comments .rating {
+    display: inline-block;
+    font-size: 1.5em;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.rating-and-comments input[type="radio"] {
+    display: none;
+}
+
+.rating-and-comments .rating label:hover,
+.rating-and-comments .rating label:hover ~ label,
+.rating-and-comments .rating input[type="radio"]:checked ~ label {
+    color: #ffc107;
+}
+
+
+.rating-item {
+    margin-bottom: 15px;
+}
+
+.user-initials {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #eee;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.rating-stars .filled {
+    color: #ffc107;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-media a {
+    color: white;
+    margin-right: 15px;
+    font-size: 1.5em;
+}
+
+.app-download img {
+    height: 40px;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 20px;
+}
 /* End css detail menu*/
