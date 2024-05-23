@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Detailmenu.dart';
 
 void main() {
   runApp(const HomeWidget(title: 'Home Page'));
@@ -10,12 +11,11 @@ class HomeWidget extends StatefulWidget {
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
-
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
   final TextEditingController _searchController = TextEditingController();
-  final List<String> _items = List<String>.generate(10, (index) => 'Item $index');
+  final List<String> _items = List<String>.generate(14, (index) => 'Item $index');
 
   Widget categoryWidget(String category) {
     return Container(
@@ -79,27 +79,29 @@ class _HomeWidgetState extends State<HomeWidget> {
               ],
             ),
           ),
-          GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            children: _items
-                .where((item) => item.toLowerCase().contains(_searchController.text.toLowerCase()))
-                .map((item) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DetailPage(item: item)),
-                  );
-                },
-                child: Center(
-                  child: Text(
-                    item,
-                    style: Theme.of(context).textTheme.headlineSmall,
+          SizedBox(
+            height: 500, // Atur tinggi sesuai kebutuhan
+            child: GridView.count(
+              crossAxisCount: 2,
+              children: _items
+                  .where((item) => item.toLowerCase().contains(_searchController.text.toLowerCase()))
+                  .map((item) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DetailPage(item: item)),
+                    );
+                  },
+                  child: Center(
+                    child: Text(
+                      item,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
         ],
       ),
@@ -116,12 +118,17 @@ class DetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail $item'),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              child: Text('KA'),
+            ),
+          ),
+        ],
       ),
-      body: Center(
-        child: Text(
-          'Ini adalah detail dari $item',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+      body: const Center(
+        child: DetailWidget()
       ),
     );
   }
