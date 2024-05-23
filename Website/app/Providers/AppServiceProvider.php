@@ -2,23 +2,30 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Recipe; // Make sure to import your Recipe model
+use App\Policies\RecipePolicy; // Import the RecipePolicy
 
-class AppServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider // Use AuthServiceProvider
 {
     /**
-     * Register any application services.
+     * The model to policy mappings for the application.
+     *
+     * @var array<class-string, class-string>
      */
-    public function register(): void
-    {
-        //
-    }
+    protected $policies = [
+        // ... other policies
+        Recipe::class => RecipePolicy::class,
+    ];
 
     /**
-     * Bootstrap any application services.
+     * Register any authentication / authorization services.
      */
     public function boot(): void
     {
+        $this->registerPolicies();
+
         //
     }
 }

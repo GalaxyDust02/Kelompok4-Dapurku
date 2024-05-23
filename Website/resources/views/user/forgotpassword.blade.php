@@ -24,7 +24,7 @@
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" placeholder="Masukkan email">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Selanjutnya</button>
+                            <a href="{{ route('forgotpassword.action', ['token' => $token, 'email' => $request->email]) }}" class="btn btn-primary btn-block">Selanjutnya</button>
                         </form>
                     </div>
                 </div>
