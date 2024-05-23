@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'homePage.dart';
+import 'Detailmenu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,22 +15,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
+      debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
     );
   }
 }
 
-class AddMenuWidget extends StatelessWidget {
-  const AddMenuWidget({super.key});
+// class AddMenuWidget extends StatelessWidget {
+//   const AddMenuWidget({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    // Kode untuk halaman "Add Menu" Anda
-    return const Center(
-      child: Text('Ini adalah halaman Add Menu'),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     // Kode untuk halaman "Add Menu" Anda
+//     return const Center(
+//       child: Text('Ini adalah halaman Add Menu'),
+//     );
+//   }
+// }
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});
@@ -63,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // Menambahkan daftar widget untuk setiap halaman
   final List<Widget> _widgetOptions = <Widget>[
     const HomeWidget(title: 'Home Page'),
-    const AddMenuWidget(),
+    const DetailWidget(),
     const ProfileWidget(),
   ];
 
