@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'homePage.dart';
-import 'Detailmenu.dart';
+import 'HomeDetailMenu/Detailmenu.dart';
+import 'profilePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,17 +34,17 @@ class MyApp extends StatelessWidget {
 //   }
 // }
 
-class ProfileWidget extends StatelessWidget {
-  const ProfileWidget({super.key});
+// class ProfileWidget extends StatelessWidget {
+//   const ProfileWidget({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    // Kode untuk halaman "Profile" Anda
-    return const Center(
-      child: Text('Ini adalah halaman Profile'),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     // Kode untuk halaman "Profile" Anda
+//     return const Center(
+//       child: Text('Ini adalah halaman Profile'),
+//     );
+//   }
+// }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

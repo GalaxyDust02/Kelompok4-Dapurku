@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Detailmenu.dart';
+import 'HomeDetailMenu/Detailmenu.dart';
 
 void main() {
   runApp(const HomeWidget(title: 'Home Page'));
