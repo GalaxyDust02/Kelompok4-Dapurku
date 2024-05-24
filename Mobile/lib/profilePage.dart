@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'DetailProfile/editNamePage.dart';
-import 'package:dapurku/DetailProfile/editEmailPage.dart';
+import 'DetailProfile/editEmailPage.dart';
 
 void main() {
   runApp(const ProfileWidget());
@@ -15,15 +15,16 @@ class ProfileWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-      '/': (context) => const ProfilePage(),
-      '/my_menu': (context) => const MyMenuPage(),
-      '/guide': (context) => const GuidePage(),
-      '/edit_name': (context) => EditNamePage(onNameChanged: (newName) {}),
-      '/edit_email': (context) => EditEmailPage(onEmailChanged: (newEmail) {}),
-      '/edit_photo': (context) => const EditPhotoPage(),
-      '/edit_password': (context) => const EditPasswordPage(),
-      '/delete_account': (context) => const DeleteAccountPage(),
-      '/bookmarks': (context) => const BookmarksPage(),
+        '/': (context) => const ProfilePage(),
+        '/my_menu': (context) => const MyMenuPage(),
+        '/guide': (context) => const GuidePage(),
+        '/edit_name': (context) => EditNamePage(onNameChanged: (newName) {}),
+        '/edit_email': (context) =>
+            EditEmailPage(onEmailChanged: (newEmail) {}),
+        '/edit_photo': (context) => const EditPhotoPage(),
+        '/edit_password': (context) => const EditPasswordPage(),
+        '/delete_account': (context) => const DeleteAccountPage(),
+        '/bookmarks': (context) => const BookmarksPage(),
       },
     );
   }
@@ -94,7 +95,8 @@ class _ProfilePageState extends State<ProfilePage> {
             title: 'Edit Email',
             route: '/edit_email',
             onTap: () async {
-              final newEmail = await Navigator.pushNamed(context, '/edit_email');
+              final newEmail =
+                  await Navigator.pushNamed(context, '/edit_email');
               if (newEmail is String && newEmail.isNotEmpty) {
                 _updateEmail(newEmail);
               }
@@ -138,7 +140,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-
 class ProfileHeader extends StatelessWidget {
   final String name;
   final String email;
@@ -161,7 +162,8 @@ class ProfileHeader extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(
                 email,
@@ -174,7 +176,6 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 }
-
 
 // class ProfileModel with ChangeNotifier {
 //   String _name = 'Nama Pengguna';
@@ -216,7 +217,6 @@ class ProfileOption extends StatelessWidget {
     );
   }
 }
-
 
 class GuidePage extends StatelessWidget {
   const GuidePage({super.key});

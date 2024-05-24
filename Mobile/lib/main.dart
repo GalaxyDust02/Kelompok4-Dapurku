@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'forgot_password_screen.dart';
 import 'login_screen.dart';
 import 'reset_password_success_screen.dart';
 import 'register_screen.dart';
 import 'reset_password_screen.dart';
-import 'homePage.dart';
-import 'HomeDetailMenu/Detailmenu.dart';
-import 'profilePage.dart';
+import 'homePage.dart'; // Import halaman HomeWidget
+import 'HomeDetailMenu/Detailmenu.dart'; // Import halaman DetailWidget
+import 'profilePage.dart'; // Import halaman ProfileWidget
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,8 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      //Routing ke halaman login
-      initialRoute: '/login', // Atur halaman awal di sini
+      initialRoute: '/login', // Halaman awal adalah LoginScreen
       routes: {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
@@ -30,36 +31,13 @@ class MyApp extends StatelessWidget {
         '/reset-password': (context) => const ResetPasswordScreen(),
         '/password-reset-success': (context) =>
             const PasswordResetSuccessScreen(),
+        '/home': (context) =>
+            const MyHomePage(), // Tambahkan route untuk MyHomePage
       },
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
     );
   }
 }
-
-// class AddMenuWidget extends StatelessWidget {
-//   const AddMenuWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Kode untuk halaman "Add Menu" Anda
-//     return const Center(
-//       child: Text('Ini adalah halaman Add Menu'),
-//     );
-//   }
-// }
-
-// class ProfileWidget extends StatelessWidget {
-//   const ProfileWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Kode untuk halaman "Profile" Anda
-//     return const Center(
-//       child: Text('Ini adalah halaman Profile'),
-//     );
-//   }
-// }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -69,46 +47,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex =
-      0; // Menambahkan variabel untuk menyimpan index halaman yang sedang aktif
+  int _selectedIndex = 0; // Indeks halaman aktif
 
-  // Menambahkan fungsi untuk mengubah index halaman yang sedang aktif
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  // Menambahkan daftar widget untuk setiap halaman
-  final List<Widget> _widgetOptions = <Widget>[
-    const HomeWidget(title: 'Home Page'),
-    const DetailWidget(),
-    const ProfileWidget(),
+  // Widget untuk setiap halaman
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeWidget(title: 'Home Page'),
+    DetailWidget(), // Contoh halaman Detail, ganti dengan halaman Anda
+    ProfileWidget(), // Contoh halaman Profile, ganti dengan halaman Anda
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions.elementAt(
-          _selectedIndex), // Menampilkan widget berdasarkan index yang sedang aktif
+      appBar: AppBar(
+        title: const Text('Dapurku'),
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        // Menambahkan BottomNavigationBar
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_box),
-            label: 'Add Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'Add Menu'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.green, // Sesuaikan warna tema
         onTap: _onItemTapped,
       ),
     );
