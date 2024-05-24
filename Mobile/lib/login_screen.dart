@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-
+import 'homePage.dart'; // Import layar home
 import 'forgot_password_screen.dart'; // Import layar lupa kata sandi
 import 'register_screen.dart'; // Import layar daftar
 
@@ -21,6 +21,32 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _handleLogin() async {
+    if (_formKey.currentState!.validate()) {
+      // Simulasikan proses login (ganti dengan logika Anda)
+      await Future.delayed(const Duration(seconds: 1)); // Simulasi delay
+
+      // Periksa apakah login berhasil (ganti dengan logika Anda)
+      bool loginSuccess = true; // Ganti dengan hasil pemeriksaan login
+
+      if (loginSuccess) {
+        // Login berhasil, navigasi ke HomeWidget
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomeWidget(title: 'Home Page')),
+        );
+      } else {
+        // Login gagal, tampilkan pesan error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text(
+                  'Login gagal. Periksa kembali email dan kata sandi Anda.')),
+        );
+      }
+    }
   }
 
   @override
@@ -99,12 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Logika untuk login di sini
-                      // ...
-                    }
-                  },
+                  onPressed: _handleLogin, // Panggil fungsi _handleLogin
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                     minimumSize: const Size(double.infinity, 50),
