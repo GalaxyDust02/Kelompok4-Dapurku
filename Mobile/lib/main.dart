@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green, // Sesuaikan warna tema
+        selectedItemColor: Colors.orange, // Sesuaikan warna tema
         onTap: _onItemTapped,
       ),
     );
