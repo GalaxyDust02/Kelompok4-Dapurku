@@ -15,7 +15,8 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   final TextEditingController _searchController = TextEditingController();
-  final List<String> _items = List<String>.generate(14, (index) => 'Item $index');
+  final List<String> _items =
+      List<String>.generate(14, (index) => 'Item $index');
 
   Widget categoryWidget(String category) {
     return Container(
@@ -37,17 +38,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              child: Text('KA'),
-            ),
-          ),
-        ],
-      ),
       body: ListView(
         children: <Widget>[
           Padding(
@@ -58,7 +48,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 setState(() {});
               },
               decoration: InputDecoration(
-                labelText: "Cari resep, bahan, dll...",
+                labelText: "Cari resep",
                 suffixIcon: IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.search),
@@ -67,30 +57,20 @@ class _HomeWidgetState extends State<HomeWidget> {
             ),
           ),
           SizedBox(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                // Category widgets
-                categoryWidget('tumis'),
-                categoryWidget('daging sapi'),
-                categoryWidget('mie telur'),
-                // Add more categories as needed
-              ],
-            ),
-          ),
-          SizedBox(
             height: 500, // Atur tinggi sesuai kebutuhan
             child: GridView.count(
               crossAxisCount: 2,
               children: _items
-                  .where((item) => item.toLowerCase().contains(_searchController.text.toLowerCase()))
+                  .where((item) => item
+                      .toLowerCase()
+                      .contains(_searchController.text.toLowerCase()))
                   .map((item) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DetailPage(item: item)),
+                      MaterialPageRoute(
+                          builder: (context) => DetailPage(item: item)),
                     );
                   },
                   child: Center(
@@ -116,20 +96,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Detail $item'),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              child: Text('KA'),
-            ),
-          ),
-        ],
-      ),
-      body: const Center(
-        child: DetailWidget()
-      ),
+      body: const Center(child: DetailWidget()),
     );
   }
 }
