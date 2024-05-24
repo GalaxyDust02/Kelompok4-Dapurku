@@ -130,7 +130,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     backgroundColor: Colors.orange,
                     minimumSize: const Size(double.infinity, 50),
                   ),
-                  child: const Text('Daftar'),
+                  child: const Text(
+                    'Daftar',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 const Text('Atau daftar dengan'),
