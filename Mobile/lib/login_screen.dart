@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'homePage.dart'; // Import layar home
+import 'main.dart'; // Import layar home
 import 'forgot_password_screen.dart'; // Import layar lupa kata sandi
 import 'register_screen.dart'; // Import layar daftar
 
@@ -35,8 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Login berhasil, navigasi ke HomeWidget
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => const HomeWidget(title: 'Home Page')),
+          MaterialPageRoute(builder: (context) => const MyHomePage()),
         );
       } else {
         // Login gagal, tampilkan pesan error
