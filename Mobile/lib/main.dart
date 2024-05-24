@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
             const PasswordResetSuccessScreen(),
       },
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
     );
   }
 }
