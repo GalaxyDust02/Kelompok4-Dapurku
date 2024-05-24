@@ -189,19 +189,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
-
-// Fungsi contoh untuk Daftar dengan Twitter
-  void _loginWithTwitter() {
-    // Tambahkan logika Daftar dengan Twitter di sini
-  }
-
-  // Fungsi contoh untuk Daftar dengan Facebook
-  void _loginWithFacebook() {
-    // Tambahkan logika Daftar dengan Facebook di sini
-  }
-
-  // Fungsi contoh untuk Daftar dengan Google
-  void _loginWithGoogle() {
-    // Tambahkan logika Daftar dengan Google di sini
-  }
 }

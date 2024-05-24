@@ -48,7 +48,10 @@ class PasswordResetSuccessScreen extends StatelessWidget {
                 backgroundColor: Colors.orange,
                 minimumSize: const Size(200, 50),
               ),
-              child: const Text('Masuk'),
+              child: const Text(
+                'Masuk',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),

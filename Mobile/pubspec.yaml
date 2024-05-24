@@ -26,6 +26,7 @@ flutter:
         - assets/images/facebook.png
         - assets/images/google.png
         - assets/images/logo.png
+        - assets/images/check.png
 
 flutter_icons: # This block needs to be indented under dev_dependencies
     android: true

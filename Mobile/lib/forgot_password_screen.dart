@@ -87,7 +87,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   backgroundColor: Colors.orange,
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                child: const Text('Selanjutnya'),
+                child: const Text(
+                  'Selanjutnya',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

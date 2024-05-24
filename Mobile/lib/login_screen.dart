@@ -1,12 +1,8 @@
-import 'package:apk/homePage.dart';
-import 'package:apk/main.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
-// Import halaman lain
-import 'forgot_password_screen.dart';
-import 'register_screen.dart';
-import 'homepage.dart'; // Import halaman utama (Home Screen)
+import 'forgot_password_screen.dart'; // Import layar lupa kata sandi
+import 'register_screen.dart'; // Import layar daftar
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -35,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
+            // Agar keyboard tidak menutupi tombol
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -86,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
+                      // Navigasi ke layar lupa kata sandi
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -103,13 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Navigasi ke halaman utama (HomeScreen) setelah validasi berhasil
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyHomePage(),
-                        ),
-                      );
+                      // Logika untuk login di sini
+                      // ...
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -127,43 +120,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Tombol login dengan Twitter
+                    // Icon One X
                     InkWell(
-                      onTap: () {
-                        // Tambahkan logika login dengan Twitter di sini
-                        // Contoh:
-                        _loginWithTwitter();
-                      },
                       child: Image.asset(
-                        'assets/images/twitter.png',
+                        'assets/images/twitter.png', // Ganti path gambar
                         height: 30,
                         width: 30,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    // Tombol login dengan Facebook
+                    SizedBox(width: 10),
+                    // Icon Facebook
                     InkWell(
-                      onTap: () {
-                        // Tambahkan logika login dengan Facebook di sini
-                        // Contoh:
-                        _loginWithFacebook();
-                      },
                       child: Image.asset(
-                        'assets/images/facebook.png',
+                        'assets/images/facebook.png', // Ganti path gambar
                         height: 30,
                         width: 30,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    // Tombol login dengan Google
+                    SizedBox(width: 10),
+                    // Icon Google
                     InkWell(
-                      onTap: () {
-                        // Tambahkan logika login dengan Google di sini
-                        // Contoh:
-                        _loginWithGoogle();
-                      },
                       child: Image.asset(
-                        'assets/images/google.png',
+                        'assets/images/google.png', // Ganti path gambar
                         height: 30,
                         width: 30,
                       ),
@@ -173,6 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
+                    // Navigasi ke layar daftar
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -191,20 +170,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  // Fungsi contoh untuk login dengan Twitter
-  void _loginWithTwitter() {
-    // Tambahkan logika login dengan Twitter di sini
-  }
-
-  // Fungsi contoh untuk login dengan Facebook
-  void _loginWithFacebook() {
-    // Tambahkan logika login dengan Facebook di sini
-  }
-
-  // Fungsi contoh untuk login dengan Google
-  void _loginWithGoogle() {
-    // Tambahkan logika login dengan Google di sini
   }
 }

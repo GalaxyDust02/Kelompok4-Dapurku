@@ -104,7 +104,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   backgroundColor: Colors.orange,
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                child: const Text('Simpan'),
+                child: const Text(
+                  'Simpan',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
