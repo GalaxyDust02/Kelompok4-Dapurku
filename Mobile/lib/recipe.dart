@@ -73,28 +73,28 @@ final List<Recipe> recipes = [
           date: '25 Jan 2024',
           reviewText:
               'Aku udah recook, hasilnya sesuai, rasanya enak. Thank you ya kak resepnya!',
-          imagePath: 'assets/images/reviewimage1.png',
+          imagePath: 'assets/images/cupcake.png',
           rating: 4),
       Review(
           name: 'Psyche Poli',
           date: '25 Jan 2024',
           reviewText:
               'Aku udah recook, hasilnya sesuai, rasanya enak. Thank you ya kak resepnya!',
-          imagePath: 'assets/images/reviewimage2.png',
+          imagePath: 'assets/images/cupcake.png',
           rating: 4),
       Review(
           name: 'Psyche Poli',
           date: '25 Jan 2024',
           reviewText:
               'Aku udah recook, hasilnya sesuai, rasanya enak. Thank you ya kak resepnya!',
-          imagePath: 'assets/images/reviewimage3.png',
+          imagePath: 'assets/images/cupcake.png',
           rating: 4),
       Review(
           name: 'Psyche Poli',
           date: '25 Jan 2024',
           reviewText:
               'Aku udah recook, hasilnya sesuai, rasanya enak. Thank you ya kak resepnya!',
-          imagePath: 'assets/images/review_image.jpg',
+          imagePath: 'assets/images/cupcake.jpg',
           rating: 4),
     ],
   ),

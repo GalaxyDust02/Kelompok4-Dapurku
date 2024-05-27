@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-import 'recipe.dart';
+import 'recipe.dart'; // Pastikan Anda memiliki file recipe.dart yang sesuai
 
-class RecipeDetailScreen extends StatelessWidget {
+class RecipeDetailScreen extends StatefulWidget {
   final Recipe recipe;
 
   const RecipeDetailScreen({super.key, required this.recipe});
 
   @override
+  State<RecipeDetailScreen> createState() => _RecipeDetailScreenState();
+}
+
+class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
+  int _rating = 0;
+  String _comment = '';
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(recipe.title),
+        title: Text(widget.recipe.title),
         backgroundColor: Colors.orange,
       ),
       body: SingleChildScrollView(
@@ -18,7 +26,7 @@ class RecipeDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              recipe.imagePath,
+              widget.recipe.imagePath,
               width: double.infinity,
               height: 200,
               fit: BoxFit.cover,
@@ -29,7 +37,7 @@ class RecipeDetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    recipe.title,
+                    widget.recipe.title,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -42,7 +50,7 @@ class RecipeDetailScreen extends StatelessWidget {
                         backgroundColor: Colors.orange,
                         radius: 12,
                         child: Text(
-                          recipe.author.substring(0, 1).toUpperCase(),
+                          widget.recipe.author.substring(0, 1).toUpperCase(),
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -51,17 +59,17 @@ class RecipeDetailScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 8.0),
                       Text(
-                        recipe.author,
+                        widget.recipe.author,
                         style: const TextStyle(fontSize: 16),
                       ),
                       const SizedBox(width: 16),
                       const Icon(Icons.timer, size: 18),
                       const SizedBox(width: 4.0),
-                      Text('${recipe.cookingTime} menit'),
+                      Text('${widget.recipe.cookingTime} menit'),
                       const SizedBox(width: 16.0),
                       const Icon(Icons.people, size: 18),
                       const SizedBox(width: 4.0),
-                      Text('${recipe.serving} orang'),
+                      Text('${widget.recipe.serving} orang'),
                     ],
                   ),
                   const SizedBox(height: 16.0),
@@ -75,7 +83,7 @@ class RecipeDetailScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: recipe.ingredients
+                    children: widget.recipe.ingredients
                         .map((ingredient) => Text('• $ingredient'))
                         .toList(),
                   ),
@@ -90,7 +98,7 @@ class RecipeDetailScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: recipe.frostingIngredients
+                    children: widget.recipe.frostingIngredients
                         .map((ingredient) => Text('• $ingredient'))
                         .toList(),
                   ),
@@ -105,7 +113,7 @@ class RecipeDetailScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: recipe.instructions
+                    children: widget.recipe.instructions
                         .map((instruction) => Text('• $instruction'))
                         .toList(),
                   ),
@@ -118,8 +126,10 @@ class RecipeDetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  Text(recipe.notes),
+                  Text(widget.recipe.notes),
                   const SizedBox(height: 16.0),
+
+                  // Bagian rating & ulasan
                   const Text(
                     'Rating & Ulasan',
                     style: TextStyle(
@@ -129,11 +139,54 @@ class RecipeDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   Column(
-                    children: recipe.reviews
-                        .map(
-                          (review) => ReviewTile(review: review),
-                        )
+                    children: widget.recipe.reviews
+                        .map((review) => ReviewTile(review: review))
                         .toList(),
+                  ),
+
+                  const SizedBox(height: 16.0),
+                  // Form untuk rating dan komentar
+                  const Text(
+                    'Berikan Rating dan Komentar Anda',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: List.generate(5, (index) {
+                      return IconButton(
+                        icon: Icon(
+                          index < _rating ? Icons.star : Icons.star_border,
+                          color: Colors.amber,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _rating = index + 1;
+                          });
+                        },
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 16.0),
+                  TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _comment = value;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Tulis komentar Anda',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // ... (Logika untuk menyimpan rating dan komentar)
+                    },
+                    child: const Text('Kirim'),
                   ),
                 ],
               ),
