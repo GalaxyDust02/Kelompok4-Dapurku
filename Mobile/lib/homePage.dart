@@ -1,5 +1,6 @@
+import 'package:apk/recipe_screen.dart';
 import 'package:flutter/material.dart';
-import 'HomeDetailMenu/Detailmenu.dart';
+import 'recipe_detail_screen.dart';
 
 void main() {
   runApp(const HomeWidget(title: 'Home Page'));
@@ -96,7 +97,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(child: DetailWidget()),
+      body: const Center(child: RecipeScreen()),
     );
   }
 }
