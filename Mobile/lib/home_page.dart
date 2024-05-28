@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'recipe_screen.dart';
-import 'recipe.dart';
-import 'recipe_search_delegate.dart';
+import 'Recipe/recipe.dart';
+import 'Recipe/recipe_screen.dart';
+import 'Recipe/recipe_search_delegate.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,6 +26,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Aplikasi Resep'),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -69,6 +72,16 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

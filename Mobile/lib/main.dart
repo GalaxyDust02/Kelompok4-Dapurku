@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'forgot_password_screen.dart';
-import 'login_screen.dart';
-import 'reset_password_success_screen.dart';
-import 'register_screen.dart';
-import 'reset_password_screen.dart';
+import 'Auth/forgot_password_screen.dart';
+import 'Auth/login_screen.dart';
+import 'Auth/reset_password_success_screen.dart';
+import 'Auth/register_screen.dart';
+import 'Auth/reset_password_screen.dart';
 import 'home_page.dart';
 import 'profilePage.dart'; // Import ProfilePage
 import 'tambahmenu.dart';

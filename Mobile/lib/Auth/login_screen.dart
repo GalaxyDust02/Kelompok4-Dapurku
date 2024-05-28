@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'main.dart'; // Import layar home
+import '../main.dart'; // Import layar home
 import 'forgot_password_screen.dart'; // Import layar lupa kata sandi
 import 'register_screen.dart'; // Import layar daftar
 
