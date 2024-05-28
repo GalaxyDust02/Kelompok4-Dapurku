@@ -9,6 +9,7 @@ import 'profilePage.dart'; // Import ProfilePage
 import 'tambahmenu.dart';
 import 'DetailProfile/editNamePage.dart';
 import 'DetailProfile/editEmailPage.dart';
+import 'splash_screen.dart'; // Import SplashScreen
 
 void main() {
   runApp(const MyApp());
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      initialRoute: '/login',
+      initialRoute: '/',
       routes: {
+        '/': (context) => SplashScreen(), // Set SplashScreen as initial route
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),

@@ -123,20 +123,31 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         ),
                       ),
                       const SizedBox(width: 8.0),
-                      Text(
-                        widget.recipe.author,
-                        style: const TextStyle(fontSize: 16),
+                      Expanded(
+                        child: Text(
+                          widget.recipe.author,
+                          style: const TextStyle(fontSize: 16),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const SizedBox(width: 16),
                       const Icon(Icons.timer, size: 18),
                       const SizedBox(width: 4.0),
-                      Text('${widget.recipe.cookingTime} menit'),
+                      Expanded(
+                        child: Text(
+                          '${widget.recipe.cookingTime} menit',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       const SizedBox(width: 16.0),
                       const Icon(Icons.people, size: 18),
                       const SizedBox(width: 4.0),
-                      Text('${widget.recipe.serving} orang'),
-                      const Spacer(), // Dorong tombol ke kanan
-                      // Tombol Bookmark
+                      Expanded(
+                        child: Text(
+                          '${widget.recipe.serving} orang',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       IconButton(
                         onPressed: _toggleBookmark,
                         icon: Icon(
@@ -146,7 +157,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           color: _isBookmarked ? Colors.orange : Colors.orange,
                         ),
                       ),
-                      // Tombol Share
                       IconButton(
                         onPressed: _shareRecipe,
                         icon: const Icon(Icons.share),
@@ -184,7 +194,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         .toList(),
                   ),
                   const SizedBox(height: 16.0),
-                  // Bagian rating & ulasan
                   const Text(
                     'Rating & Ulasan',
                     style: TextStyle(
@@ -193,8 +202,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  // Tampilkan komentar yang baru disimpan
-                  // Komentar baru akan tampil di atas
                   if (_comment.isNotEmpty || _rating > 0)
                     ReviewTile(
                       review: Review(
@@ -205,14 +212,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         imagePath: '', // Ganti dengan path gambar
                       ),
                     ),
-                  // Tampilkan komentar dari user lain
                   Column(
                     children: widget.recipe.reviews
                         .map((review) => ReviewTile(review: review))
                         .toList(),
                   ),
                   const SizedBox(height: 16.0),
-                  // Form untuk rating dan komentar
                   const Text(
                     'Berikan Rating dan Komentar Anda',
                     style: TextStyle(
@@ -244,7 +249,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       height: 200,
                       fit: BoxFit.cover,
                     ),
-                  // Tombol Pilih Gambar
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -318,9 +322,12 @@ class ReviewTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8.0),
-                Text(
-                  review.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Text(
+                    review.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 const SizedBox(width: 8.0),
                 Text(
