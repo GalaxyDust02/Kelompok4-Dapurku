@@ -4,7 +4,7 @@ import 'login_screen.dart';
 import 'reset_password_success_screen.dart';
 import 'register_screen.dart';
 import 'reset_password_screen.dart';
-import 'homePage.dart';
+import 'home_page.dart';
 import 'profilePage.dart'; // Import ProfilePage
 import 'tambahmenu.dart';
 import 'DetailProfile/editNamePage.dart';
