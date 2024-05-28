@@ -5,7 +5,7 @@ import 'reset_password_success_screen.dart';
 import 'register_screen.dart';
 import 'reset_password_screen.dart';
 import 'homePage.dart';
-import 'profilePage.dart';
+import 'profilePage.dart'; // Import ProfilePage
 import 'recipe_screen.dart';
 import 'recipe.dart';
 import 'recipe_detail_screen.dart';
@@ -59,12 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // Perbaiki _widgetOptions agar sesuai dengan BottomNavigationBarItems
   static final List<Widget> _widgetOptions = <Widget>[
-    const RecipeScreen(), // Gunakan RecipeScreen sebagai halaman Home
+    const RecipeScreen(),
     TambahMenuPage(),
-    const Placeholder(), // Contoh placeholder
-    const ProfileWidget(),
+    const Placeholder(),
+    ProfilePage(), // Use ProfilePage directly
   ];
 
   @override
