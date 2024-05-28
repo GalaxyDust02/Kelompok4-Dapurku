@@ -6,10 +6,6 @@ import 'register_screen.dart';
 import 'reset_password_screen.dart';
 import 'homePage.dart';
 import 'profilePage.dart'; // Import ProfilePage
-import 'recipe_screen.dart';
-import 'recipe.dart';
-import 'recipe_detail_screen.dart';
-import 'recipe_search_delegate.dart';
 import 'tambahmenu.dart';
 import 'DetailProfile/editNamePage.dart';
 import 'DetailProfile/editEmailPage.dart';
@@ -36,7 +32,8 @@ class MyApp extends StatelessWidget {
         '/reset-password': (context) => const ResetPasswordScreen(),
         '/password-reset-success': (context) =>
             const PasswordResetSuccessScreen(),
-        '/home': (context) => const MyHomePage(),
+        '/home': (context) => const HomePage(),
+        '/profile': (context) => const ProfilePage(),
       },
       debugShowCheckedModeBanner: false,
     );
@@ -60,42 +57,36 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const RecipeScreen(),
+    const HomePage(),
     TambahMenuPage(),
-    const Placeholder(),
-    ProfilePage(), // Use ProfilePage directly
+    const ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dapurku'),
-        backgroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: RecipeSearchDelegate(recipes: recipes),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'Add Menu'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.orange,
-        onTap: _onItemTapped,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: _widgetOptions.elementAt(_selectedIndex),
+              ),
+            ),
+            BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.add_box), label: 'Add Menu'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: 'Profile'),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.orange,
+              onTap: _onItemTapped,
+            ),
+          ],
+        ),
       ),
     );
   }

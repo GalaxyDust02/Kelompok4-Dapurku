@@ -1,103 +1,75 @@
-import 'package:apk/recipe_screen.dart';
 import 'package:flutter/material.dart';
-import 'recipe_detail_screen.dart';
+import 'recipe_screen.dart';
+import 'recipe.dart';
+import 'recipe_search_delegate.dart';
 
-void main() {
-  runApp(const HomeWidget(title: 'Home Page'));
-}
-
-class HomeWidget extends StatefulWidget {
-  final String title;
-  const HomeWidget({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  _HomeWidgetState createState() => _HomeWidgetState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> {
-  final TextEditingController _searchController = TextEditingController();
-  final List<String> _items =
-      List<String>.generate(14, (index) => 'Item $index');
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
 
-  Widget categoryWidget(String category) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Text(
-        category,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-      ),
-    );
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
+
+  static final List<Widget> _widgetOptions = <Widget>[
+    const RecipeScreen(), // Pastikan RecipeScreen() ada di sini
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              onChanged: (value) {
-                setState(() {});
-              },
-              decoration: InputDecoration(
-                labelText: "Cari resep",
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 500, // Atur tinggi sesuai kebutuhan
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: _items
-                  .where((item) => item
-                      .toLowerCase()
-                      .contains(_searchController.text.toLowerCase()))
-                  .map((item) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailPage(item: item)),
-                    );
-                  },
-                  child: Center(
-                    child: Text(
-                      item,
-                      style: Theme.of(context).textTheme.headlineSmall,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              color: Colors.white,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 48.0,
+                    height: 48.0,
+                    child: Image.asset('assets/images/logo.png'),
+                  ), // Replace with your logo path
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Cari resep di sini',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                      ),
+                      onSubmitted: (query) {
+                        showSearch(
+                          context: context,
+                          delegate: RecipeSearchDelegate(recipes: recipes),
+                          query: query,
+                        );
+                      },
                     ),
                   ),
-                );
-              }).toList(),
+                ],
+              ),
             ),
-          ),
-        ],
+            Expanded(
+              child: _widgetOptions[_selectedIndex], // Gunakan _selectedIndex
+            ),
+          ],
+        ),
       ),
-    );
-  }
-}
-
-class DetailPage extends StatelessWidget {
-  final String item;
-  const DetailPage({super.key, required this.item});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(child: RecipeScreen()),
     );
   }
 }
