@@ -1,34 +1,6 @@
+import 'package:apk/Recipe/recipe.dart';
+import 'package:apk/Recipe/recipe_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'DetailProfile/editNamePage.dart';
-import 'DetailProfile/editEmailPage.dart';
-
-void main() {
-  runApp(const ProfileWidget());
-}
-
-class ProfileWidget extends StatelessWidget {
-  const ProfileWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const ProfilePage(),
-        '/my_menu': (context) => const MyMenuPage(),
-        '/guide': (context) => const GuidePage(),
-        '/edit_name': (context) => EditNamePage(onNameChanged: (newName) {}),
-        '/edit_email': (context) =>
-            EditEmailPage(onEmailChanged: (newEmail) {}),
-        '/edit_photo': (context) => const EditPhotoPage(),
-        '/edit_password': (context) => const EditPasswordPage(),
-        '/delete_account': (context) => const DeleteAccountPage(),
-        '/bookmarks': (context) => const BookmarksPage(),
-      },
-    );
-  }
-}
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -40,6 +12,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String _name = 'Nama Pengguna';
   String _email = 'email@example.com';
+  List<Menu> _myMenus = []; // List untuk menyimpan data menu
+  String? _currentPassword; // Variabel untuk password saat ini
+  final _formKey = GlobalKey<FormState>(); // Key untuk form edit password
+  bool _isLoading = false; // Variabel untuk loading indicator
+  List<Recipe> _bookmarkedRecipes = []; // List untuk bookmark
 
   void _updateName(String newName) {
     setState(() {
@@ -53,86 +30,277 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  Future<void> _showEditDialog(BuildContext context, String title,
+      String initialValue, Function(String) onSave) async {
+    String newValue = initialValue;
+    await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: TextEditingController(text: initialValue),
+            onChanged: (value) {
+              newValue = value;
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                onSave(newValue);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Simpan'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Fungsi untuk menambahkan menu baru (contoh sederhana)
+  void _addMenu(BuildContext context) async {
+    String? namaMenu;
+    String? durasiMenu;
+    String? porsiMenu;
+
+    await showDialog<Map<String, String>>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Tambahkan Menu'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                decoration: const InputDecoration(labelText: 'Nama Menu'),
+                onChanged: (value) {
+                  namaMenu = value;
+                },
+              ),
+              TextField(
+                decoration: const InputDecoration(labelText: 'Durasi'),
+                onChanged: (value) {
+                  durasiMenu = value;
+                },
+              ),
+              TextField(
+                decoration: const InputDecoration(labelText: 'Porsi'),
+                onChanged: (value) {
+                  porsiMenu = value;
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (namaMenu != null &&
+                    durasiMenu != null &&
+                    porsiMenu != null) {
+                  setState(() {
+                    _myMenus.add(Menu(
+                        nama: namaMenu!,
+                        durasi: durasiMenu!,
+                        porsi: porsiMenu!));
+                  });
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Tambahkan'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Fungsi untuk edit password
+  Future<void> _editPassword() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      // Simulasikan update password dengan delay
+      await Future.delayed(const Duration(seconds: 2));
+      // Reset form dan loading
+      _formKey.currentState!.reset();
+      setState(() {
+        _isLoading = false;
+      });
+      // Tampilkan pesan sukses
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password berhasil diubah!')),
+      );
+    }
+  }
+
+  // Fungsi untuk hapus akun
+  Future<void> _deleteAccount() async {
+    // Simulasikan penghapusan akun dengan delay
+    await Future.delayed(const Duration(seconds: 2));
+    // Tampilkan pesan sukses
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Akun berhasil dihapus!')),
+    );
+    // Navigasi ke halaman lain (misalnya halaman login)
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
+  // Fungsi untuk toggle bookmark
+  void _toggleBookmark(Recipe recipe) {
+    if (_bookmarkedRecipes.contains(recipe)) {
+      setState(() {
+        _bookmarkedRecipes.remove(recipe);
+      });
+    } else {
+      setState(() {
+        _bookmarkedRecipes.add(recipe);
+      });
+    }
+  }
+
+  String? _newPassword;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
+      body: Column(
         children: [
-          ProfileHeader(name: _name, email: _email),
-          Divider(),
-          ProfileOption(
-            icon: Icons.menu,
-            title: 'My Menu',
-            route: '/my_menu',
-            onTap: () {
-              Navigator.pushNamed(context, '/my_menu');
-            },
+          ProfileHeader(
+            name: _name,
+            email: _email,
           ),
-          ProfileOption(
-            icon: Icons.menu_book,
-            title: 'Panduan',
-            route: '/guide',
-            onTap: () {
-              Navigator.pushNamed(context, '/guide');
-            },
-          ),
-          ProfileOption(
-            icon: Icons.edit,
-            title: 'Edit Name',
-            route: '/edit_name',
-            onTap: () async {
-              final newName = await Navigator.pushNamed(context, '/edit_name');
-              if (newName is String && newName.isNotEmpty) {
-                _updateName(newName);
-              }
-            },
-          ),
-          ProfileOption(
-            icon: Icons.email,
-            title: 'Edit Email',
-            route: '/edit_email',
-            onTap: () async {
-              final newEmail =
-                  await Navigator.pushNamed(context, '/edit_email');
-              if (newEmail is String && newEmail.isNotEmpty) {
-                _updateEmail(newEmail);
-              }
-            },
-          ),
-          ProfileOption(
-            icon: Icons.photo,
-            title: 'Edit Photo',
-            route: '/edit_photo',
-            onTap: () {
-              Navigator.pushNamed(context, '/edit_photo');
-            },
-          ),
-          ProfileOption(
-            icon: Icons.lock,
-            title: 'Edit Password',
-            route: '/edit_password',
-            onTap: () {
-              Navigator.pushNamed(context, '/edit_password');
-            },
-          ),
-          ProfileOption(
-            icon: Icons.delete,
-            title: 'Hapus akun',
-            route: '/delete_account',
-            onTap: () {
-              Navigator.pushNamed(context, '/delete_account');
-            },
-          ),
-          ProfileOption(
-            icon: Icons.bookmark,
-            title: 'List Bookmark',
-            route: '/bookmarks',
-            onTap: () {
-              Navigator.pushNamed(context, '/bookmarks');
-            },
+          Expanded(
+            child: ListView(
+              children: [
+                _buildMenuItem(Icons.menu, 'My Menu', onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyMenuPage(menus: _myMenus)),
+                  );
+                }),
+                _buildMenuItem(Icons.edit, 'Edit Name',
+                    onTap: () => _showEditDialog(
+                        context, 'Edit Name', _name, _updateName)),
+                _buildMenuItem(Icons.email, 'Edit Email',
+                    onTap: () => _showEditDialog(
+                        context, 'Edit Email', _email, _updateEmail)),
+                _buildMenuItem(Icons.lock, 'Edit Password', onTap: () {
+                  // Tampilkan dialog untuk edit password
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Edit Password'),
+                        content: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Password Saat Ini',
+                                ),
+                                obscureText: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Masukkan password saat ini';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  _currentPassword = value;
+                                },
+                              ),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Password Baru',
+                                ),
+                                obscureText: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Masukkan password baru';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  _newPassword = value;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Batal'),
+                          ),
+                          ElevatedButton(
+                            onPressed: _isLoading
+                                ? null
+                                : () {
+                                    _formKey.currentState!.save();
+                                    _editPassword();
+                                  },
+                            child: _isLoading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text('Simpan'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }),
+                _buildMenuItem(Icons.delete, 'Hapus akun',
+                    onTap: _deleteAccount),
+                _buildMenuItem(Icons.bookmark, 'List Bookmark', onTap: () {
+                  // Navigasi ke halaman bookmark
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BookmarkPage(
+                            bookmarkedRecipes: _bookmarkedRecipes)),
+                  );
+                }),
+              ],
+            ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _addMenu(context); // Panggil fungsi untuk menambah menu
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(IconData icon, String title, {VoidCallback? onTap}) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      onTap: onTap,
     );
   }
 }
@@ -141,7 +309,10 @@ class ProfileHeader extends StatelessWidget {
   final String name;
   final String email;
 
-  ProfileHeader({required this.name, required this.email});
+  ProfileHeader({
+    required this.name,
+    required this.email,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +320,18 @@ class ProfileHeader extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 40,
-            child: Icon(Icons.person, size: 40),
+            child: Text(
+              name.substring(0, 1).toUpperCase(),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            backgroundColor:
+                Colors.orange, // Warna latar belakang circle avatar
           ),
           const SizedBox(width: 16),
           Column(
@@ -174,139 +354,75 @@ class ProfileHeader extends StatelessWidget {
   }
 }
 
-// class ProfileModel with ChangeNotifier {
-//   String _name = 'Nama Pengguna';
-//   String _email = 'email@example.com';
-
-//   String get name => _name;
-//   String get email => _email;
-
-//   set name(String newName) {
-//     _name = newName;
-//     notifyListeners();
-//   }
-
-//   set email(String newEmail) {
-//     _email = newEmail;
-//     notifyListeners();
-//   }
-// }
-
-class ProfileOption extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String route;
-  final VoidCallback? onTap;
-
-  const ProfileOption({
-    required this.icon,
-    required this.title,
-    required this.route,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      onTap: onTap,
-    );
-  }
-}
-
-class GuidePage extends StatelessWidget {
-  const GuidePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Panduan')),
-      body: const Center(child: Text('Halaman Panduan')),
-    );
-  }
-}
-
-// class EditNamePage extends StatelessWidget {
-//   const EditNamePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Edit Name')),
-//       body: const Center(child: Text('Halaman Edit Name')),
-//     );
-//   }
-// }
-
-// class EditEmailPage extends StatelessWidget {
-//   const EditEmailPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Edit Email')),
-//       body: const Center(child: Text('Halaman Edit Email')),
-//     );
-//   }
-// }
-
-class EditPhotoPage extends StatelessWidget {
-  const EditPhotoPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Edit Photo')),
-      body: const Center(child: Text('Halaman Edit Photo')),
-    );
-  }
-}
-
-class EditPasswordPage extends StatelessWidget {
-  const EditPasswordPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Edit Password')),
-      body: const Center(child: Text('Halaman Edit Password')),
-    );
-  }
-}
-
-class DeleteAccountPage extends StatelessWidget {
-  const DeleteAccountPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Hapus Akun')),
-      body: const Center(child: Text('Halaman Hapus Akun')),
-    );
-  }
-}
-
-class BookmarksPage extends StatelessWidget {
-  const BookmarksPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('List Bookmark')),
-      body: const Center(child: Text('Halaman List Bookmark')),
-    );
-  }
-}
-
 class MyMenuPage extends StatelessWidget {
-  const MyMenuPage({super.key});
+  final List<Menu> menus;
+
+  const MyMenuPage({Key? key, required this.menus}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Menu')),
-      body: const Center(child: Text('Halaman My Menu')),
+      appBar: AppBar(
+        title: const Text('My Menu'),
+      ),
+      body: ListView.builder(
+        itemCount: menus.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(menus[index].nama),
+            subtitle: Text(
+                'Durasi: ${menus[index].durasi}, Porsi: ${menus[index].porsi}'),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// Model Data untuk Menu
+class Menu {
+  final String nama;
+  final String durasi;
+  final String porsi;
+
+  Menu({required this.nama, required this.durasi, required this.porsi});
+}
+
+// Halaman Bookmark
+class BookmarkPage extends StatelessWidget {
+  final List<Recipe> bookmarkedRecipes;
+
+  const BookmarkPage({Key? key, required this.bookmarkedRecipes})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bookmark'),
+      ),
+      body: bookmarkedRecipes.isEmpty
+          ? const Center(child: Text('Tidak ada bookmark'))
+          : ListView.builder(
+              itemCount: bookmarkedRecipes.length,
+              itemBuilder: (context, index) {
+                final recipe = bookmarkedRecipes[index];
+                return ListTile(
+                  leading: Image.asset(recipe.imagePath),
+                  title: Text(recipe.title),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RecipeDetailScreen(
+                          recipe: recipe,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
     );
   }
 }
