@@ -18,6 +18,9 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
   final List<String> _caraMembuat = [];
   final List<String> _catatan = [];
   XFile? _image;
+  final TextEditingController _catatanController = TextEditingController();
+  final TextEditingController _bahanController = TextEditingController();
+  final TextEditingController _caraMembuatController = TextEditingController();
 
   void _selectImage(ImageSource source) async {
     try {
@@ -35,6 +38,8 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
   void _addBahan(String bahan) {
     setState(() {
       _bahan.add(bahan);
+      _bahanController
+          .clear(); // Bersihkan text field setelah menambahkan bahan
     });
   }
 
@@ -47,6 +52,8 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
   void _addCaraMembuat(String cara) {
     setState(() {
       _caraMembuat.add(cara);
+      _caraMembuatController
+          .clear(); // Bersihkan text field setelah menambahkan cara membuat
     });
   }
 
@@ -59,6 +66,8 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
   void _addCatatan(String catatan) {
     setState(() {
       _catatan.add(catatan);
+      _catatanController
+          .clear(); // Bersihkan text field setelah menambahkan catatan
     });
   }
 
@@ -72,37 +81,7 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Simpan'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.black,
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Terbitkan'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.orange,
-              ),
-            ),
-            IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        title: Center(child: Text('Tambah Menu')), // Title di tengah
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -209,141 +188,94 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
-              _buildIngredientList(),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Tambah Bahan'),
-                            content: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Masukkan bahan',
-                              ),
-                              onSaved: (value) {
-                                _addBahan(value!);
-                              },
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: Text('Batal'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  _formKey.currentState!.save();
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Tambahkan'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.add),
-                      label: Text('Bahan'),
-                    ),
-                  ),
-                ],
+              // Inputan bahan
+              TextFormField(
+                controller: _bahanController,
+                decoration: InputDecoration(
+                  hintText: 'Masukkan bahan...',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 1, // Menentukan jumlah baris
               ),
+              SizedBox(height: 16),
+              // Button untuk menambahkan bahan
+              ElevatedButton(
+                onPressed: () {
+                  _addBahan(_bahanController.text);
+                },
+                child: Text('Tambahkan Bahan'),
+              ),
+              SizedBox(height: 16),
+              // Menampilkan daftar bahan yang sudah ditambahkan
+              _buildIngredientList(),
               SizedBox(height: 32),
               Text(
                 'Cara Membuat',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
-              _buildCaraMembuatList(),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Tambah Cara Membuat'),
-                            content: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Masukkan langkah',
-                              ),
-                              onSaved: (value) {
-                                _addCaraMembuat(value!);
-                              },
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: Text('Batal'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  _formKey.currentState!.save();
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Tambahkan'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.add),
-                      label: Text('Langkah'),
-                    ),
-                  ),
-                ],
+              // Inputan langkah cara membuat
+              TextFormField(
+                controller: _caraMembuatController,
+                decoration: InputDecoration(
+                  hintText: 'Masukkan langkah...',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 1, // Menentukan jumlah baris
               ),
+              SizedBox(height: 16),
+              // Button untuk menambahkan cara membuat
+              ElevatedButton(
+                onPressed: () {
+                  _addCaraMembuat(_caraMembuatController.text);
+                },
+                child: Text('Tambahkan Langkah'),
+              ),
+              SizedBox(height: 16),
+              // Menampilkan daftar cara membuat yang sudah ditambahkan
+              _buildCaraMembuatList(),
               SizedBox(height: 32),
               Text(
                 'Catatan',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
-              _buildCatatanList(),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Tambah Catatan'),
-                            content: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Masukkan catatan',
-                              ),
-                              onSaved: (value) {
-                                _addCatatan(value!);
-                              },
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: Text('Batal'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  _formKey.currentState!.save();
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Tambahkan'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.add),
-                      label: Text('Catatan'),
-                    ),
-                  ),
-                ],
+              // Menggunakan TextFormField untuk kolom catatan
+              TextFormField(
+                controller: _catatanController,
+                decoration: InputDecoration(
+                  hintText: 'Tulis catatan tambahan...',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 5, // Menentukan jumlah baris
               ),
+              SizedBox(height: 16),
+              // Button untuk menambahkan catatan
+              ElevatedButton(
+                onPressed: () {
+                  _addCatatan(_catatanController.text);
+                },
+                child: Text('Tambahkan Catatan'),
+              ),
+              SizedBox(height: 16),
+              // Menampilkan daftar catatan yang sudah ditambahkan
+              _buildCatatanList(),
+              SizedBox(height: 32), // Jarak antara catatan dan button publish
+              ElevatedButton(
+                onPressed: () {},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32, vertical: 16), // Padding button
+                  child: Text('Publish',
+                      style: TextStyle(fontSize: 18)), // Ukuran text button
+                ),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.orange,
+                  minimumSize: Size(double.infinity, 50), // Ukuran button
+                ),
+              ),
+              SizedBox(height: 16), // Jarak bawah button publish
             ],
           ),
         ),
