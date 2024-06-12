@@ -127,7 +127,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
+                    backgroundColor: const Color.fromRGBO(
+                        230, 131, 43, 1), // Warna RGB(230, 131, 43)
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   child: const Text(

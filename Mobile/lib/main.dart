@@ -22,6 +22,11 @@ class MyApp extends StatelessWidget {
       title: 'Dapurku',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        // Define your custom color for the bottom navigation bar
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor:
+              Color.fromRGBO(230, 131, 43, 1), // RGB(230, 131, 43)
+        ),
       ),
       initialRoute: '/',
       routes: {
@@ -83,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     icon: Icon(Icons.person), label: 'Profil'),
               ],
               currentIndex: _selectedIndex,
-              selectedItemColor: Colors.orange,
+              // Selected item color is already defined in ThemeData
               onTap: _onItemTapped,
             ),
           ],

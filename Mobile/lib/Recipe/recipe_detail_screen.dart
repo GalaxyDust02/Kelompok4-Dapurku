@@ -84,7 +84,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Kembali"),
-        backgroundColor: Colors.orange,
+        backgroundColor:
+            const Color.fromRGBO(230, 131, 43, 1), // Warna RGB(230, 131, 43)
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -112,7 +113,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundColor: Colors.orange,
+                        backgroundColor: const Color.fromRGBO(
+                            230, 131, 43, 1), // Warna RGB(230, 131, 43)
                         radius: 12,
                         child: Text(
                           widget.recipe.author.substring(0, 1).toUpperCase(),
@@ -154,7 +156,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           _isBookmarked
                               ? Icons.bookmark
                               : Icons.bookmark_border,
-                          color: _isBookmarked ? Colors.orange : Colors.orange,
+                          color: _isBookmarked
+                              ? const Color.fromRGBO(230, 131, 43, 1)
+                              : const Color.fromRGBO(
+                                  230, 131, 43, 1), // Warna RGB(230, 131, 43)
                         ),
                       ),
                       IconButton(
@@ -282,6 +287,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: _saveRatingAndComment,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(
+                          230, 131, 43, 1), // Warna RGB(230, 131, 43)
+                    ),
                     child: const Text('Kirim'),
                   ),
                 ],
@@ -311,7 +320,8 @@ class ReviewTile extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.orange,
+                  backgroundColor: const Color.fromRGBO(
+                      230, 131, 43, 1), // Warna RGB(230, 131, 43)
                   radius: 18,
                   child: Text(
                     review.name.substring(0, 1).toUpperCase(),
@@ -351,7 +361,8 @@ class ReviewTile extends StatelessWidget {
               children: List.generate(5, (index) {
                 return Icon(
                   index < review.rating ? Icons.star : Icons.star_border,
-                  color: Colors.orange,
+                  color: const Color.fromRGBO(
+                      230, 131, 43, 1), // Warna RGB(230, 131, 43)
                 );
               }),
             ),

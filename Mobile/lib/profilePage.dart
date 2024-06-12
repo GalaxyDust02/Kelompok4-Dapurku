@@ -227,29 +227,39 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 40,
-            child: Text(
-              name.substring(0, 1).toUpperCase(),
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor:
-                Colors.orange, // Warna latar belakang circle avatar
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Text(
-                name,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              CircleAvatar(
+                radius: 40,
+                child: Text(
+                  name.substring(0, 1).toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                backgroundColor: const Color.fromRGBO(
+                    230, 131, 43, 1), // Warna latar belakang circle avatar
+              ),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4), // Jarak antara nama dan keterangan
+                  Text(
+                    'Klik nama untuk merubah',
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
               ),
             ],
           ),

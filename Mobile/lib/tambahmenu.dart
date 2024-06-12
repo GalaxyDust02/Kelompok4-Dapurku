@@ -268,7 +268,8 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
                 ),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.orange,
+                  backgroundColor: const Color.fromRGBO(
+                      230, 131, 43, 1), // Warna RGB(230, 131, 43)
                   minimumSize: Size(double.infinity, 50), // Ukuran button
                 ),
               ),
