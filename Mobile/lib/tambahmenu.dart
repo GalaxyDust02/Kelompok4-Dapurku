@@ -81,7 +81,7 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Tambah Menu')), // Title di tengah
+        title: Center(child: Text('Tambah Resep')), // Title di tengah
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),

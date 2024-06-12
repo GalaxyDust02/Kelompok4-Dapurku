@@ -177,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Profil'),
       ),
       body: Column(
         children: [
@@ -188,26 +188,26 @@ class _ProfilePageState extends State<ProfilePage> {
           Expanded(
             child: ListView(
               children: [
-                _buildMenuItem(Icons.menu, 'My Menu', onTap: () {
+                _buildMenuItem(Icons.menu, 'ResepKu', onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => MyMenuPage(menus: _myMenus)),
                   );
                 }),
-                _buildMenuItem(Icons.edit, 'Edit Name',
+                _buildMenuItem(Icons.edit, 'Rubah Nama',
                     onTap: () => _showEditDialog(
-                        context, 'Edit Name', _name, _updateName)),
-                _buildMenuItem(Icons.email, 'Edit Email',
+                        context, 'Rubah Nama', _name, _updateName)),
+                _buildMenuItem(Icons.email, 'Rubah Email',
                     onTap: () => _showEditDialog(
-                        context, 'Edit Email', _email, _updateEmail)),
-                _buildMenuItem(Icons.lock, 'Edit Password', onTap: () {
+                        context, 'Rubah Email', _email, _updateEmail)),
+                _buildMenuItem(Icons.lock, 'Rubah Password', onTap: () {
                   // Tampilkan dialog untuk edit password
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Edit Password'),
+                        title: const Text('Rubah Password'),
                         content: Form(
                           key: _formKey,
                           child: Column(
@@ -363,7 +363,7 @@ class MyMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Menu'),
+        title: const Text('ResepKu'),
       ),
       body: ListView.builder(
         itemCount: menus.length,
