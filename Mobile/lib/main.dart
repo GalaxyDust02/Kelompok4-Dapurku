@@ -7,8 +7,6 @@ import 'Auth/reset_password_screen.dart';
 import 'home_page.dart';
 import 'profilePage.dart'; // Import ProfilePage
 import 'tambahmenu.dart';
-import 'DetailProfile/editNamePage.dart';
-import 'DetailProfile/editEmailPage.dart';
 import 'splash_screen.dart'; // Import SplashScreen
 
 void main() {
