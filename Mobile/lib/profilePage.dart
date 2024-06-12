@@ -11,57 +11,22 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String _name = 'Nama Pengguna';
-  String _email = 'email@example.com';
-  List<Menu> _myMenus = []; // List untuk menyimpan data menu
-  String? _currentPassword; // Variabel untuk password saat ini
-  final _formKey = GlobalKey<FormState>(); // Key untuk form edit password
-  bool _isLoading = false; // Variabel untuk loading indicator
-  List<Recipe> _bookmarkedRecipes = []; // List untuk bookmark
+  List<Menu> _myMenus = [];
+  List<Recipe> _bookmarkedRecipes = [];
 
-  void _updateName(String newName) {
-    setState(() {
-      _name = newName;
-    });
+  final TextEditingController _nameController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); // Declare _formKey
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = _name;
   }
 
-  void _updateEmail(String newEmail) {
-    setState(() {
-      _email = newEmail;
-    });
-  }
-
-  Future<void> _showEditDialog(BuildContext context, String title,
-      String initialValue, Function(String) onSave) async {
-    String newValue = initialValue;
-    await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: TextField(
-            controller: TextEditingController(text: initialValue),
-            onChanged: (value) {
-              newValue = value;
-            },
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Batal'),
-            ),
-            TextButton(
-              onPressed: () {
-                onSave(newValue);
-                Navigator.of(context).pop();
-              },
-              child: const Text('Simpan'),
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 
   // Fungsi untuk menambahkan menu baru (contoh sederhana)
@@ -127,38 +92,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Fungsi untuk edit password
-  Future<void> _editPassword() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-      // Simulasikan update password dengan delay
-      await Future.delayed(const Duration(seconds: 2));
-      // Reset form dan loading
-      _formKey.currentState!.reset();
-      setState(() {
-        _isLoading = false;
-      });
-      // Tampilkan pesan sukses
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password berhasil diubah!')),
-      );
-    }
-  }
-
-  // Fungsi untuk hapus akun
-  Future<void> _deleteAccount() async {
-    // Simulasikan penghapusan akun dengan delay
-    await Future.delayed(const Duration(seconds: 2));
-    // Tampilkan pesan sukses
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Akun berhasil dihapus!')),
-    );
-    // Navigasi ke halaman lain (misalnya halaman login)
-    Navigator.pushReplacementNamed(context, '/login');
-  }
-
   // Fungsi untuk toggle bookmark
   void _toggleBookmark(Recipe recipe) {
     if (_bookmarkedRecipes.contains(recipe)) {
@@ -172,120 +105,122 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  String? _newPassword;
+  // Fungsi untuk menghapus akun
+  Future<void> _deleteAccount() async {
+    // Tampilkan dialog konfirmasi
+    bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi Penghapusan Akun'),
+          content: const Text('Apakah Anda yakin ingin menghapus akun ini?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text('Hapus'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      // Simulasikan penghapusan akun dengan delay
+      await Future.delayed(const Duration(seconds: 2));
+      // Tampilkan pesan sukses
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Akun berhasil dihapus!')),
+      );
+      // Navigasi ke halaman lain (misalnya halaman login)
+      Navigator.pushReplacementNamed(context, '/login');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
       ),
-      body: Column(
-        children: [
-          ProfileHeader(
-            name: _name,
-            email: _email,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Profile Header
+              ProfileHeader(
+                name: _name,
+              ),
+              const SizedBox(height: 20),
+
+              // Form Edit Profil
+              Form(
+                key: _formKey, // Use _formKey here
+                child: Column(
+                  children: [
+                    // Nama
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Nama',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Masukkan nama';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        setState(() {
+                          _name = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Tombol Simpan Perubahan
+                    ElevatedButton(
+                      onPressed: () {
+                        _formKey.currentState!.save(); // Use _formKey here
+                        // Update data di sini jika perlu (misalnya ke database)
+                      },
+                      child: const Text('Simpan Perubahan'),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+
+              // Menu Lainnya
+              _buildMenuItem(Icons.menu, 'ResepKu', onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyMenuPage(menus: _myMenus)),
+                );
+              }),
+              _buildMenuItem(Icons.bookmark, 'List Bookmark', onTap: () {
+                // Navigasi ke halaman bookmark
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          BookmarkPage(bookmarkedRecipes: _bookmarkedRecipes)),
+                );
+              }),
+              _buildMenuItem(Icons.delete, 'Hapus akun', onTap: _deleteAccount),
+            ],
           ),
-          Expanded(
-            child: ListView(
-              children: [
-                _buildMenuItem(Icons.menu, 'ResepKu', onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyMenuPage(menus: _myMenus)),
-                  );
-                }),
-                _buildMenuItem(Icons.edit, 'Rubah Nama',
-                    onTap: () => _showEditDialog(
-                        context, 'Rubah Nama', _name, _updateName)),
-                _buildMenuItem(Icons.email, 'Rubah Email',
-                    onTap: () => _showEditDialog(
-                        context, 'Rubah Email', _email, _updateEmail)),
-                _buildMenuItem(Icons.lock, 'Rubah Password', onTap: () {
-                  // Tampilkan dialog untuk edit password
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Rubah Password'),
-                        content: Form(
-                          key: _formKey,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Password Saat Ini',
-                                ),
-                                obscureText: true,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Masukkan password saat ini';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _currentPassword = value;
-                                },
-                              ),
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Password Baru',
-                                ),
-                                obscureText: true,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Masukkan password baru';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _newPassword = value;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Batal'),
-                          ),
-                          ElevatedButton(
-                            onPressed: _isLoading
-                                ? null
-                                : () {
-                                    _formKey.currentState!.save();
-                                    _editPassword();
-                                  },
-                            child: _isLoading
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
-                                : const Text('Simpan'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }),
-                _buildMenuItem(Icons.delete, 'Hapus akun',
-                    onTap: _deleteAccount),
-                _buildMenuItem(Icons.bookmark, 'List Bookmark', onTap: () {
-                  // Navigasi ke halaman bookmark
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BookmarkPage(
-                            bookmarkedRecipes: _bookmarkedRecipes)),
-                  );
-                }),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -307,49 +242,38 @@ class _ProfilePageState extends State<ProfilePage> {
 
 class ProfileHeader extends StatelessWidget {
   final String name;
-  final String email;
 
   ProfileHeader({
     required this.name,
-    required this.email,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 40,
-            child: Text(
-              name.substring(0, 1).toUpperCase(),
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+    return Row(
+      children: [
+        CircleAvatar(
+          radius: 40,
+          child: Text(
+            name.substring(0, 1).toUpperCase(),
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            backgroundColor:
-                Colors.orange, // Warna latar belakang circle avatar
           ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                email,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            ],
-          ),
-        ],
-      ),
+          backgroundColor: Colors.orange, // Warna latar belakang circle avatar
+        ),
+        const SizedBox(width: 16),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              name,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
