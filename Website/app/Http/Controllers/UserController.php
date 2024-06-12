@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use APP\Mail\ForgotPasswordEmail;
 
 class UserController extends Controller
 {
-    public function register(){
+    public function register()
+    {
         $data['title'] = 'Register';
         return view('user/register', $data);
     }
@@ -29,6 +28,7 @@ class UserController extends Controller
         ]);
         $user->save();
 
+        // Redirect to the login route
         return redirect()->route('login')->with('success', 'Registrasi berhasil, silahkan login.');
     }
 
@@ -55,62 +55,36 @@ class UserController extends Controller
         }
     }
 
-    public function forgotpassword()
+    public function forgotPassword()
     {
-        return view('user.forgotpassword');
+        return view('user.forgotpsw');
     }
 
-    public function forgotpassword_action(Request $request)
+    public function forgotPasswordAction(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users', // Validasi email ada di tabel users
+            'email' => 'required|email|exists:users,email',
         ]);
 
         $user = User::where('email', $request->email)->first();
-        $token = Str::random(64);
 
-        DB::table('password_resets')->insert([
-            'email' => $request->email,
-            'token' => $token,
-            'created_at' => Carbon::now(),
-        ]);
+        if ($user) {
+            // Generate a random password reset token
+            $token = Str::random(60);
+            $user->password_reset_token = $token;
+            $user->save();
 
-        Mail::to($request->email)->send(new ForgotPasswordEmail($token)); // Kirim email
+            // Send password reset email
+            Mail::send('emails.forgotPassword', ['token' => $token], function ($message) use ($user) {
+                $message->to($user->email)
+                    ->subject('Password Reset Request');
+            });
 
-        return back()->with('success', 'Silakan cek email Anda untuk tautan reset password.');
-    }
-
-    public function resetpassword(Request $request, $token)
-    {
-        return view('user.resetpassword', ['token' => $token]);
-    }
-
-    public function resetpassword_action(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email|exists:users',
-            'password' => 'required|confirmed|min:8',
-        ]);
-
-        $passwordReset = DB::table('password_resets')
-            ->where('token', $request->token)
-            ->where('email', $request->email)
-            ->first();
-
-        if (!$passwordReset) {
-            return back()->with('error', 'Token reset password tidak valid.');
+            return redirect()->route('login')->with('success', 'Password reset email sent successfully. Please check your inbox.');
+        } else {
+            return redirect()->back()->with('error', 'Email not found.');
         }
-
-        $user = User::where('email', $request->email)->first();
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        DB::table('password_resets')->where('email', $request->email)->delete();
-
-        return redirect()->route('login')->with('success', 'Password berhasil diubah!');
     }
-
 
     public function logout(){
         auth()->logout();

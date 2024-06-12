@@ -16,7 +16,7 @@
                         <img src="{{asset('images/berhasil.png')}}" alt="" class="icon-checmark">
                         <h3 class="card-title text-center mb-3">Kata Sandi Berhasil Direset</h3>
                         <p class="text-muted text-center">Kata sandi Anda berhasil direset! Silahkan masuk menggunakan kata sandi baru Anda.</p>
-                        <a href="{{ route('login') }}" class="btn btn-primary btn-block">Masuk</a>
+                        <button type="submit" class="btn btn-primary btn-block" onclick="window.location.replace('{{route('login')}}')">Masuk</button>
                     </div>
                 </div>
             </div>

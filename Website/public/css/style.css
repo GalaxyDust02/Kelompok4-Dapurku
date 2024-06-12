@@ -1,3 +1,4 @@
+/* Basic Styles */
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -5,11 +6,9 @@ body {
     font-weight: normal;
     display: flex;
     flex-direction: column;
-    ;
 }
 
 @media (min-width: 1200px) {
-
     .container,
     .container-lg,
     .container-md,
@@ -667,149 +666,165 @@ form {
 
 /*Stop css confirmrst*/
 
+
+/* Start CSS Dashboard */
+
+.container-body {
+    padding: 40px 200px 40px 200px;
+    background-color: #F6F6F6;
+}
+
+.container-dashboard .row {
+    background-color: white;
+    box-shadow: 0 0px 8px 0 rgba(114, 114, 114, 15%);
+    border-radius: 16px;
+}
+
+.container-dashboard .card {
+    margin: 40px;
+    border-radius: 16px;
+}
+
+.container-dashboard .card-header {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.container-dashboard .card-body {
+    padding: 40px;
+}
+
+.container-dashboard .card-img-top {
+    height: 300px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    object-fit: cover;
+}
+
+.container-dashboard h3 {
+    font-weight: 700;
+    color: #282828;
+    font-size: 32px;
+}
+
+.container-dashboard p {
+    font-size: 16px;
+    color: #4A4A4A;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+.container-dashboard .btn-primary {
+    background-color: #E68329;
+    border-color: #E68329;
+    border-radius: 9px;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.container-dashboard .btn-primary:hover {
+    background-color: #E68329;
+    border-color: #E68329;
+}
+
+/* Stop css Dashboard */
+
 /* Start CSS Detail Menu */
-/* Basic Styling */
-body {
-    font-family: sans-serif;
-}
+/* style.css */
+.container-body-detail-menu {
+    background-color: #F6F6F6;
+    padding: 40px 0;
+  }
 
-.container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
-}
+  .container-detail-menu .row {
+    background-color: white;
+    box-shadow: 0 0px 8px 0 rgba(114, 114, 114, 15%);
+    border-radius: 16px;
+    margin: 0 200px;
+  }
 
-/* Header */
-header {
-    background-color: #f0f0f0;
-    padding: 10px 0;
-}
-
-.logo {
-    float: left;
-    margin-right: 20px;
-}
-
-.logo img {
-    height: 40px;
-}
-
-.search-form {
-    float: left;
-    margin-right: 20px;
-}
-
-.user-actions {
-    float: right;
-}
-
-.user-actions a,
-.user-actions button {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-left: 10px;
-    background-color: #3490dc;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-
-/* Recipe Listing */
-.card {
+  .container-detail-menu .card {
     border: none;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    box-shadow: none;
+  }
 
-.card-img-top {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
+  .container-detail-menu .card-img-top {
+    height: 400px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    object-fit: cover;
+  }
 
-/* Recipe Details */
-.recipe-details {
-    margin-top: 20px;
-}
+  .container-detail-menu h3 {
+    font-weight: 700;
+    color: #282828;
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
 
-.recipe-meta {
-    margin-bottom: 15px;
-}
+  .container-detail-menu p {
+    font-size: 16px;
+    color: #4A4A4A;
+    font-weight: normal;
+    line-height: 1.5;
+  }
 
-.recipe-meta span {
-    margin-right: 15px;
-}
+  .rating-summary {
+    margin-bottom: 10px;
+  }
 
-.recipe-image {
-    max-width: 100%;
-    height: auto;
+  .average-rating {
+    font-size: 18px;
+    font-weight: bold;
+    color: #E68329;
+  }
+
+  .rating-count {
+    font-size: 14px;
+    color: #797979;
+  }
+
+  .comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+
+  /* Styling untuk sidebar */
+  .sidebar {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .sidebar h4 {
+    font-weight: bold;
+  }
+
+  .sidebar .rating-stars i {
+    color: #E68329;
+  }
+
+  .sidebar .user-info {
     margin-bottom: 20px;
-    border-radius: 8px;
-}
+  }
 
-.rating-and-comments .rating {
-    display: inline-block;
-    font-size: 1.5em;
-    color: #ccc;
-    cursor: pointer;
-}
-
-.rating-and-comments input[type="radio"] {
-    display: none;
-}
-
-.rating-and-comments .rating label:hover,
-.rating-and-comments .rating label:hover ~ label,
-.rating-and-comments .rating input[type="radio"]:checked ~ label {
-    color: #ffc107;
-}
-
-
-.rating-item {
-    margin-bottom: 15px;
-}
-
-.user-initials {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    background-color: #eee;
+  .sidebar .user-info img {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
-}
+  }
 
-.rating-stars .filled {
-    color: #ffc107;
-}
-
-/* Footer */
-footer {
-    background-color: #333;
-    color: white;
-    padding: 20px 0;
-    margin-top: 50px;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.social-media a {
-    color: white;
-    margin-right: 15px;
-    font-size: 1.5em;
-}
-
-.app-download img {
-    height: 40px;
-}
-
-.copyright {
-    text-align: center;
+  .sidebar .share-buttons {
     margin-top: 20px;
-}
+  }
+
+  .sidebar .share-buttons a {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
 /* End css detail menu*/

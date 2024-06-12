@@ -13,18 +13,18 @@
             <div class="col-md-4">
                 <div class="card mt-5">
                     <div class="card-body">
-                        <a href="{{ route('login') }}" class="btn btn-light mb-3">
+                        <a href="login" class="btn btn-light mb-3">
                         <img src="{{asset('images/iconback.png')}}" alt="iconback" class="fas fa-arrow-left">
                         </a>
                         <h3 class="card-title text-center mb-3">Lupa Kata Sandi</h3>
                         <p class="text-muted text-center">Masukkan email Anda yang terdaftar untuk melakukan reset kata sandi.</p>
-                        <form method="POST" action="{{route('forgotpassword.action')}}">
+                        <form form method="POST" action="forgotpassword.action">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" placeholder="Masukkan email">
                             </div>
-                            <a href="{{ route('forgotpassword.action', ['token' => $token, 'email' => $request->email]) }}" class="btn btn-primary btn-block">Selanjutnya</button>
+                            <button type="submit" class="btn btn-primary btn-block">Selanjutnya</button>
                         </form>
                     </div>
                 </div>

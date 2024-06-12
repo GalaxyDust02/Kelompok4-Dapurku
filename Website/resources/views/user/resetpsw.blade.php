@@ -13,13 +13,12 @@
             <div class="col-md-4">
                 <div class="card mt-5">
                     <div class="card-body">
-                        <a href="{{ route('forgotpassword') }}" class="btn btn-light mb-3">
+                        <a href="{{ route('forgotpsw') }}" class="btn btn-light mb-3">
                         <img src="{{asset('images/iconback.png')}}" alt="iconback" class="fas fa-arrow-left">
                         </a>
                         <h3 class="card-title text-center mb-3">Reset Kata Sandi</h3>
                         <p class="text-muted text-center">Masukkan kata sandi Anda yang baru</p>
-                        <form method="POST" action="{{route('resetpassword.action')}}" >
-                            @csrf
+                        <form>
                             <div class="form-group">
                                 <label for="password">Kata Sandi</label>
                                 <input type="password" class="form-control" id="password" placeholder="Masukkan kata sandi">
@@ -28,7 +27,7 @@
                                 <label for="confirm_password">Konfirmasi Kata Sandi</label>
                                 <input type="password" class="form-control" id="confirm_password" placeholder="Masukkan konfirmasi kata sandi">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Simpan</button>
+                            <button type="submit" class="btn btn-primary btn-block" onclick="window.location.replace('{{route('confirmrst')}}')">Simpan</button>
                         </form>
                     </div>
                 </div>

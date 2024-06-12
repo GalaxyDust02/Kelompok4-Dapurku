@@ -9,13 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('table_user', function (Blueprint $table) {
-            $table->id('user_id');
+        Schema::create('dishes', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->text('description');
+            $table->string('image_path');
             $table->timestamps();
         });
     }
@@ -23,8 +23,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('table_user');
+        Schema::dropIfExists('dishes');
     }
 };

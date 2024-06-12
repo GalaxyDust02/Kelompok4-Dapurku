@@ -17,7 +17,7 @@
                     <img src="images/logo.png" alt="Logo" class="logo">
                     <h2 class="title">Daftar</h2>
 
-                    <form method="POST" action="{{route('register.action')}}" >
+                    <form action="{{ route('register') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="email">Nama</label>
@@ -46,7 +46,7 @@
                         <a href="home/dashboard"><img src="images/facebook.png" alt="Facebook"></a>
                         <a href="home/dashboard"><img src="images/google.png" alt="Google"></a>
                     </div>
-                    <p class="text-center small-secondary">Sudah punya akun? <a href="{{route('login')}}">Masuk</a></p>
+                    <p class="text-center small-secondary">Sudah punya akun? <a href="login">Masuk</a></p>
                 </div>
             </div>
         </div>

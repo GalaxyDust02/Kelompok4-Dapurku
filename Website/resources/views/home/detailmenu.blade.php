@@ -9,78 +9,130 @@
     <title>Detail Menu</title>
 </head>
 <body>
+<div class="container-detail-menu my-5">
     <div class="container">
-        <div class="detail-menu-container">
-            <div class="menu-header">
-                <h1 class="menu-title">Snow Chocolate Cupcake</h1>
-                <div class="menu-author">
-                    <img src="{{ asset('images/author_pic.jpg') }}" alt="Author Profile Pic" class="author-profile-pic">
-                    <span class="author-name">Psyche Poli</span>
-                </div>
-            </div>
-            <div class="menu-details">
-                <div class="ingredients-container">
-                    <h3>Bahan - Bahan</h3>
-                    <ul class="ingredients-list">
-                        <li>1 kotak tepung pondan coklat</li>
-                        <li>6 butir telur</li>
-                        <li>Bahan frosting coklat (sesuai instruksi kemasan)</li>
-                        <li>Strawberry dan hiasan - sesuai selera</li>
-                        <li>1 sdm cokelat cair</li>
-                    </ul>
-                </div>
-                <div class="instructions-container">
-                    <h3>Cara Membuat</h3>
-                    <ol class="instructions-list">
-                        <li>Pecahkan telur, kocok hingga mengembang dengan menggunakan mixer</li>
-                        <li>Lelehkan margarin, masukkan tepung pondan instan kedalam adonan telur</li>
-                        <li>Tuang adonan kedalam cetakan cupcake dengan ketinggian 3/4</li>
-                        <li>Panggang 170 celcius selama 25 menit hingga matang. Tes kematangan dengan tusukan lidi. Biarkan dingin dan oles dengan frosting.</li>
-                        <li>Hias diatas cupcake yang sudah dingin, kemudian beri hiasan. Selamat mencoba</li>
-                    </ol>
-                </div>
-                <div class="notes-container">
-                    <h3>Catatan</h3>
-                    <p>Pernah dengar games Cupcakes
-                        Fever? Atau serial TV DC Cupcakes?
-                        Cupcakes atau kue mangkok memang
-                        cantik ya! Lain halnya
-                        dengan cakes yang berukuran besar,
-                        dengan cupcakes ini kamu hanya
-                        menghias area topping. Tak hanya
-                        cantik, kue ini juga sangat
-                        menggemaskan!</p>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card shadow-sm mb-4">
+                    <img src="{{ asset('storage/' . $dish->image) }}" class="card-img-top" alt="{{ $dish->name }}">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $dish->name }}</h3>
+                        <p class="card-text">
+                            <i class="fas fa-clock"></i> {{ $dish->cooking_time }} menit |
+                            <i class="fas fa-users"></i> {{ $dish->serving }} Orang
+                        </p>
+                        <p class="card-text">{{ $dish->description }}</p>
 
-                    <p>Membuat cupcakes ini ternyata
-                        sangat sederhana! Anda cukup buat
-                        2 adonan, yaitu adonan dasar kue
-                        dan topping frosting. Setelah kue
-                        matang tinggal dihias dan
-                        menyelesaikan toppingnya!
-                        dengan menghiasnya dengan topping!</p>
+                        <h4>Bahan - Bahan</h4>
+                        <ul>
+                            @foreach (explode("\n", $dish->ingredients) as $ingredient)
+                                <li>{{ $ingredient }}</li>
+                            @endforeach
+                        </ul>
+
+                        <h4>Cara Membuat</h4>
+                        <ol>
+                            @foreach (explode("\n", $dish->steps) as $step)
+                                <li>{{ $step }}</li>
+                            @endforeach
+                        </ol>
+                    </div>
                 </div>
             </div>
-            <div class="rating-comment-container">
-                <h2>Rating & Ulasan</h2>
-                <div class="rating-stars">
-                    <span class="rating-star">★</span>
-                    <span class="rating-star">★</span>
-                    <span class="rating-star">★</span>
-                    <span class="rating-star">★</span>
-                    <span class="rating-star">★</span>
-                </div>
-                <ul class="comment-list">
-                    <li class="comment-item">
-                        <div class="comment-header">
-                            <img src="{{ asset('images/author_pic.jpg') }}" alt="Author Profile Pic" class="author-profile-pic">
-                            <span class="author-name">Psyche Poli</span>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">Catatan</h4>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Voluptatum accusantium necessitatibus tempore saepe
+                            reiciendis molestias, quod ad neque nostrum culpa
+                            asperiores atque dolorum iure laboriosam,
+                            eveniet quam obcaecati veniam.
+                        </p>
+
+                        <hr>
+
+                        <h4 class="card-title">Rating & Ulasan</h4>
+                        <div class="rating-summary">
+                            @php
+                                $avgRating = $dish->ratings()->avg('rating') ?? 0;
+                                $ratingCount = $dish->ratings()->count();
+                            @endphp
+
+                            <div class="rating-stars">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $avgRating)
+                                        <i class="fas fa-star text-warning"></i>
+                                    @else
+                                        <i class="far fa-star"></i>
+                                    @endif
+                                @endfor
+                            </div>
+                            <span class="average-rating text-warning">
+                                {{ number_format($avgRating, 1) }} / 5
+                            </span>
+                            <span class="rating-count text-muted">
+                                ( {{ $ratingCount }} Rating )
+                            </span>
                         </div>
-                        <p class="comment-content">Aku udah recook, hasilnya sesuai, rasanya enak. Thank you ya kak resepnya!</p>
-                    </li>
-                    </ul>
+
+                        @if(Auth::check())
+                            <form action="{{ route('ratings.store') }}" method="POST" class="mb-3">
+                                @csrf
+                                <input type="hidden" name="dish_id" value="{{ $dish->id }}">
+                                <div class="form-group">
+                                    <label for="rating">Berikan Rating:</label>
+                                    <select name="rating" id="rating" class="form-control">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>
+                                                {{ $i }} Bintang
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Submit Rating</button>
+                            </form>
+                        @else
+                          <p>
+                            <a href="{{ route('login') }}">Login</a> untuk memberikan rating.
+                        </p>
+                        @endif
+
+                        <hr>
+
+                        <h4 class="card-title">Komentar</h4>
+                        @foreach ($dish->comments as $comment)
+                            <div class="comment border rounded p-3 mb-3">
+                                <p>
+                                  <strong>{{ $comment->user->name }}:</strong>
+                                  {{ $comment->comment }}
+                                </p>
+                            </div>
+                        @endforeach
+
+                        @if(Auth::check())
+                            <form action="{{ route('comments.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="dish_id" value="{{ $dish->id }}">
+                                <div class="form-group">
+                                    <label for="comment">Tambahkan Komentar:</label>
+                                    <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Submit Komentar</button>
+                            </form>
+                        @else
+                          <p>
+                            <a href="{{ route('login') }}">Login</a> untuk berkomentar.
+                        </p>
+                        @endif
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
-    <script src="{{ asset('js/ratecomment.js') }}"></script>
+</div>
 </body>
 </html>

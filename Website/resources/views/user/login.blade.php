@@ -16,7 +16,7 @@
                 <div class="login-form">
                     <img src="images/logo.png" alt="Logo" class="logo">
                     <h2 class="title">Masuk</h2>
-                    <form method="POST" action="{{route('login.action')}}" >
+                    <form method="POST" action="{{route('login')}}" >
                         @csrf
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -27,7 +27,7 @@
                             <input type="password" class="form-control" name="password" placeholder="Masukkan kata sandi" required>
                         </div>
                         <div class="form-button-group">
-                            <a href="{{route('forgotpassword')}}" class="float-end">Lupa kata sandi?</a>
+                            <a href="{{ route('forgotpassword') }}" class="float-end">Lupa kata sandi?</a>
                             <button type="submit" class="btn btn-primary submit-button">Masuk</button>
                         </div>
                     </form>
@@ -38,7 +38,7 @@
                         <a href="home/dashboard"><img src="images/facebook.png" alt="Facebook"></a>
                         <a href="home/'dashboard"><img src="images/google.png" alt="Google"></a>
                     </div>
-                    <p class="text-center small-secondary">Belum punya akun? <a href="{{route('register')}}">Daftar</a></p>
+                    <p class="text-center small-secondary">Belum punya akun? <a href="register">Daftar</a></p>
                 </div>
             </div>
         </div>
