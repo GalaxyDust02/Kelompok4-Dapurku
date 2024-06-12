@@ -80,9 +80,6 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('Tambah Resep')), // Title di tengah
-      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Form(
