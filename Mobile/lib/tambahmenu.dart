@@ -126,7 +126,8 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
                     ),
                     child: _image != null
                         ? Image.file(
-                            _image!.path as File,
+                            File(_image!
+                                .path), // Ubah _image!.path menjadi File(_image!.path)
                             fit: BoxFit.cover,
                           )
                         : Icon(
@@ -186,21 +187,26 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
               ),
               SizedBox(height: 16),
               // Inputan bahan
-              TextFormField(
-                controller: _bahanController,
-                decoration: InputDecoration(
-                  hintText: 'Masukkan bahan...',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 1, // Menentukan jumlah baris
-              ),
-              SizedBox(height: 16),
-              // Button untuk menambahkan bahan
-              ElevatedButton(
-                onPressed: () {
-                  _addBahan(_bahanController.text);
-                },
-                child: Text('Tambahkan Bahan'),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _bahanController,
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan bahan...',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      _addBahan(_bahanController.text);
+                    },
+                    child: Text('Tambahkan'),
+                  ),
+                ],
               ),
               SizedBox(height: 16),
               // Menampilkan daftar bahan yang sudah ditambahkan
@@ -212,21 +218,26 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
               ),
               SizedBox(height: 16),
               // Inputan langkah cara membuat
-              TextFormField(
-                controller: _caraMembuatController,
-                decoration: InputDecoration(
-                  hintText: 'Masukkan langkah...',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 1, // Menentukan jumlah baris
-              ),
-              SizedBox(height: 16),
-              // Button untuk menambahkan cara membuat
-              ElevatedButton(
-                onPressed: () {
-                  _addCaraMembuat(_caraMembuatController.text);
-                },
-                child: Text('Tambahkan Langkah'),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _caraMembuatController,
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan langkah...',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      _addCaraMembuat(_caraMembuatController.text);
+                    },
+                    child: Text('Tambahkan'),
+                  ),
+                ],
               ),
               SizedBox(height: 16),
               // Menampilkan daftar cara membuat yang sudah ditambahkan
@@ -244,7 +255,7 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
                   hintText: 'Tulis catatan tambahan...',
                   border: OutlineInputBorder(),
                 ),
-                maxLines: 5, // Menentukan jumlah baris
+                maxLines: 5,
               ),
               SizedBox(height: 16),
               // Button untuk menambahkan catatan
@@ -287,30 +298,14 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
       physics: NeverScrollableScrollPhysics(),
       itemCount: _bahan.length,
       itemBuilder: (context, index) {
-        return Dismissible(
-          key: Key(_bahan[index]),
-          onDismissed: (direction) {
-            _removeBahan(index);
-          },
-          background: Container(
-            color: Colors.red,
-            child: Icon(Icons.delete, color: Colors.white),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              children: [
-                Icon(Icons.more_vert, size: 16),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    _bahan[index],
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                Icon(Icons.drag_handle),
-              ],
-            ),
+        return ListTile(
+          leading: Icon(Icons.check_circle),
+          title: Text(_bahan[index]),
+          trailing: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              _removeBahan(index);
+            },
           ),
         );
       },
@@ -323,30 +318,14 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
       physics: NeverScrollableScrollPhysics(),
       itemCount: _caraMembuat.length,
       itemBuilder: (context, index) {
-        return Dismissible(
-          key: Key(_caraMembuat[index]),
-          onDismissed: (direction) {
-            _removeCaraMembuat(index);
-          },
-          background: Container(
-            color: Colors.red,
-            child: Icon(Icons.delete, color: Colors.white),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              children: [
-                Icon(Icons.more_vert, size: 16),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    _caraMembuat[index],
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                Icon(Icons.drag_handle),
-              ],
-            ),
+        return ListTile(
+          leading: Icon(Icons.sort),
+          title: Text(_caraMembuat[index]),
+          trailing: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              _removeCaraMembuat(index);
+            },
           ),
         );
       },
@@ -359,30 +338,14 @@ class _TambahMenuPageState extends State<TambahMenuPage> {
       physics: NeverScrollableScrollPhysics(),
       itemCount: _catatan.length,
       itemBuilder: (context, index) {
-        return Dismissible(
-          key: Key(_catatan[index]),
-          onDismissed: (direction) {
-            _removeCatatan(index);
-          },
-          background: Container(
-            color: Colors.red,
-            child: Icon(Icons.delete, color: Colors.white),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              children: [
-                Icon(Icons.more_vert, size: 16),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    _catatan[index],
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                Icon(Icons.drag_handle),
-              ],
-            ),
+        return ListTile(
+          leading: Icon(Icons.note),
+          title: Text(_catatan[index]),
+          trailing: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              _removeCatatan(index);
+            },
           ),
         );
       },
