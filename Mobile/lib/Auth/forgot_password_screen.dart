@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-
-import 'reset_password_screen.dart'; // Import layar reset kata sandi
+import 'package:http/http.dart' as http;
+import 'reset_password_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -18,6 +18,30 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+  void _handleForgotPassword() async {
+    if (_formKey.currentState!.validate()) {
+      final res = await http.post(
+        Uri.parse('http://192.168.1.3:8000/api/forgot-password'),
+        body: {
+          'email': _emailController.text,
+        },
+      );
+      if (res.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ResetPasswordScreen(email: _emailController.text),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Email tidak ditemukan.')),
+        );
+      }
+    }
   }
 
   @override
@@ -69,23 +93,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Logika untuk mengirim email reset kata sandi di sini
-                    // ...
-
-                    // Navigasi ke layar reset kata sandi
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ResetPasswordScreen(),
-                      ),
-                    );
-                  }
-                },
+                onPressed: _handleForgotPassword,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(
-                      230, 131, 43, 1), // Warna RGB(230, 131, 43)
+                  backgroundColor: const Color.fromRGBO(230, 131, 43, 1),
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 child: const Text(

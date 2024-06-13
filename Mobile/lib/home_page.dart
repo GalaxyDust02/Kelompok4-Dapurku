@@ -4,7 +4,7 @@ import 'Recipe/recipe_screen.dart';
 import 'Recipe/recipe_search_delegate.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required String selectedPreference});
 
   @override
   State<HomePage> createState() => _HomePageState();

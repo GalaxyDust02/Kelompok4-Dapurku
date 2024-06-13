@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart'; // Import home_page.dart
+import 'home_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -80,18 +80,15 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Periksa apakah preferensi sudah dipilih
                 if (_selectedPreference != null) {
-                  // Navigasi ke halaman HomePage (ganti halaman sebelumnya)
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          HomePage(), // Ganti DashboardPage dengan HomePage
+                          HomePage(selectedPreference: _selectedPreference!),
                     ),
                   );
                 } else {
-                  // Tampilkan pesan error jika preferensi belum dipilih
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Please choose a preference')),
                   );

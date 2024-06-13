@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import '../main.dart'; // Import layar home
-import 'forgot_password_screen.dart'; // Import layar lupa kata sandi
-import 'register_screen.dart'; // Import layar daftar
+import '../main.dart';
+import 'forgot_password_screen.dart';
+import 'register_screen.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -25,20 +26,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      // Simulasikan proses login (ganti dengan logika Anda)
-      await Future.delayed(const Duration(seconds: 1)); // Simulasi delay
+      await Future.delayed(const Duration(seconds: 1));
+      final res = await http.post(
+        Uri.parse('http://192.168.1.3:8000/api/login'),
+        body: {
+          'email': _emailController.text,
+          'password': _passwordController.text,
+        },
+      );
 
-      // Periksa apakah login berhasil (ganti dengan logika Anda)
-      bool loginSuccess = true; // Ganti dengan hasil pemeriksaan login
-
-      if (loginSuccess) {
-        // Login berhasil, navigasi ke HomeWidget
+      if (res.statusCode == 200) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MyHomePage()),
         );
       } else {
-        // Login gagal, tampilkan pesan error
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content: Text(
@@ -56,13 +58,12 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            // Agar keyboard tidak menutupi tombol
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 100),
                 Image.asset(
-                  'assets/images/logo.png', // Ganti dengan path logo Anda
+                  'assets/images/logo.png',
                   height: 100,
                 ),
                 const SizedBox(height: 30),
@@ -108,7 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      // Navigasi ke layar lupa kata sandi
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -124,10 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: _handleLogin, // Panggil fungsi _handleLogin
+                  onPressed: _handleLogin,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(
-                        230, 131, 43, 1), // Warna RGB(230, 131, 43)
+                    backgroundColor: const Color.fromRGBO(230, 131, 43, 1),
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   child: const Text(
@@ -144,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Icon One X
                     InkWell(
                       child: Image.asset(
-                        'assets/images/twitter.png', // Ganti path gambar
+                        'assets/images/twitter.png',
                         height: 30,
                         width: 30,
                       ),
@@ -153,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Icon Facebook
                     InkWell(
                       child: Image.asset(
-                        'assets/images/facebook.png', // Ganti path gambar
+                        'assets/images/facebook.png',
                         height: 30,
                         width: 30,
                       ),
@@ -162,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Icon Google
                     InkWell(
                       child: Image.asset(
-                        'assets/images/google.png', // Ganti path gambar
+                        'assets/images/google.png',
                         height: 30,
                         width: 30,
                       ),

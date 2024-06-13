@@ -5,9 +5,9 @@ import 'Auth/reset_password_success_screen.dart';
 import 'Auth/register_screen.dart';
 import 'Auth/reset_password_screen.dart';
 import 'home_page.dart';
-import 'profilePage.dart'; // Import ProfilePage
+import 'profilePage.dart';
 import 'tambahmenu.dart';
-import 'splash_screen.dart'; // Import SplashScreen
+import 'splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,22 +22,24 @@ class MyApp extends StatelessWidget {
       title: 'Dapurku',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        // Define your custom color for the bottom navigation bar
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          selectedItemColor:
-              Color.fromRGBO(230, 131, 43, 1), // RGB(230, 131, 43)
+          selectedItemColor: Color.fromRGBO(230, 131, 43, 1),
         ),
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => SplashScreen(), // Set SplashScreen as initial route
+        '/': (context) => SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
-        '/reset-password': (context) => const ResetPasswordScreen(),
+        '/reset-password': (context) => const ResetPasswordScreen(
+              email: '',
+            ),
         '/password-reset-success': (context) =>
             const PasswordResetSuccessScreen(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const HomePage(
+              selectedPreference: '',
+            ),
         '/profile': (context) => const ProfilePage(),
       },
       debugShowCheckedModeBanner: false,
@@ -62,7 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const HomePage(),
+    const HomePage(
+      selectedPreference: '',
+    ),
     TambahMenuPage(),
     const ProfilePage(),
   ];
@@ -88,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     icon: Icon(Icons.person), label: 'Profil'),
               ],
               currentIndex: _selectedIndex,
-              // Selected item color is already defined in ThemeData
               onTap: _onItemTapped,
             ),
           ],

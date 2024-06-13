@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-
-import 'login_screen.dart'; // Import layar login
+import 'package:http/http.dart' as http;
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -26,6 +26,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  void _handleRegister() async {
+    if (_formKey.currentState!.validate()) {
+      final res = await http.post(
+        Uri.parse('http://192.168.1.3:8000/api/register'),
+        body: {
+          'name': _nameController.text,
+          'email': _emailController.text,
+          'password': _passwordController.text,
+        },
+      );
+      if (res.statusCode == 201) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Registrasi gagal.')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,13 +57,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            // Agar keyboard tidak menutupi tombol
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50),
                 Image.asset(
-                  'assets/images/logo.png', // Ganti dengan path logo Anda
+                  'assets/images/logo.png',
                   height: 100,
                 ),
                 const SizedBox(height: 30),
@@ -112,23 +134,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Logika untuk menyimpan data pengguna di sini
-                      // ...
-
-                      // Navigasi ke layar login setelah berhasil daftar
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: _handleRegister,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(
-                        230, 131, 43, 1), // Warna RGB(230, 131, 43)
+                    backgroundColor: const Color.fromRGBO(230, 131, 43, 1),
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   child: const Text(
@@ -145,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Icon One X
                     InkWell(
                       child: Image.asset(
-                        'assets/images/twitter.png', // Ganti path gambar
+                        'assets/images/twitter.png',
                         height: 30,
                         width: 30,
                       ),
@@ -154,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Icon Facebook
                     InkWell(
                       child: Image.asset(
-                        'assets/images/facebook.png', // Ganti path gambar
+                        'assets/images/facebook.png',
                         height: 30,
                         width: 30,
                       ),
@@ -163,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Icon Google
                     InkWell(
                       child: Image.asset(
-                        'assets/images/google.png', // Ganti path gambar
+                        'assets/images/google.png',
                         height: 30,
                         width: 30,
                       ),

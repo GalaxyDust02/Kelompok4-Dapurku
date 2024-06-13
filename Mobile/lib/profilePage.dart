@@ -1,6 +1,8 @@
 import 'package:apk/Recipe/recipe.dart';
 import 'package:apk/Recipe/recipe_detail_screen.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -49,7 +51,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Fungsi untuk menambahkan menu baru (contoh sederhana)
   void _addMenu(BuildContext context) async {
     String? namaMenu;
     String? durasiMenu;
@@ -112,7 +113,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Fungsi untuk toggle bookmark
   void _toggleBookmark(Recipe recipe) {
     if (_bookmarkedRecipes.contains(recipe)) {
       setState(() {
@@ -125,9 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  // Fungsi untuk menghapus akun
   Future<void> _deleteAccount() async {
-    // Tampilkan dialog konfirmasi
     bool? confirm = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
@@ -153,14 +151,37 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
     if (confirm == true) {
-      // Simulasikan penghapusan akun dengan delay
       await Future.delayed(const Duration(seconds: 2));
       // Tampilkan pesan sukses
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Akun berhasil dihapus!')),
       );
-      // Navigasi ke halaman lain (misalnya halaman login)
       Navigator.pushReplacementNamed(context, '/login');
+    }
+  }
+
+  Future<void> _resetPassword(String email) async {
+    if (email.isEmpty || !EmailValidator.validate(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Masukkan alamat email yang valid')),
+      );
+      return;
+    }
+
+    final res = await http.post(
+      Uri.parse('http://192.168.1.3:8000/api/reset-password'),
+      body: {
+        'email': email,
+      },
+    );
+
+    if (res.statusCode == 200) {
+      Navigator.pushReplacementNamed(context, '/password-reset-success');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Gagal mereset password. Silakan coba lagi')),
+      );
     }
   }
 
@@ -198,6 +219,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               }),
               _buildMenuItem(Icons.delete, 'Hapus akun', onTap: _deleteAccount),
+              _buildMenuItem(Icons.lock_reset, 'Reset Password', onTap: () {
+                // Panggil fungsi reset password
+                _resetPassword(_name); // Asumsikan _name adalah email
+              }),
             ],
           ),
         ),
@@ -242,8 +267,7 @@ class ProfileHeader extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                backgroundColor: const Color.fromRGBO(
-                    230, 131, 43, 1), // Warna latar belakang circle avatar
+                backgroundColor: const Color.fromRGBO(230, 131, 43, 1),
               ),
               const SizedBox(width: 16),
               Column(
@@ -254,7 +278,7 @@ class ProfileHeader extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 4), // Jarak antara nama dan keterangan
+                  const SizedBox(height: 4),
                   Text(
                     'Klik nama untuk merubah',
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -303,7 +327,6 @@ class Menu {
   Menu({required this.nama, required this.durasi, required this.porsi});
 }
 
-// Halaman Bookmark
 class BookmarkPage extends StatelessWidget {
   final List<Recipe> bookmarkedRecipes;
 

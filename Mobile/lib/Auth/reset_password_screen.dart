@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'login_screen.dart'; // Import layar login
-import 'reset_password_success_screen.dart'; // Import layar sukses reset kata sandi
+import 'package:http/http.dart' as http;
+import 'login_screen.dart';
+import 'reset_password_success_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({Key? key}) : super(key: key);
+  final String email;
+
+  const ResetPasswordScreen({Key? key, required this.email}) : super(key: key);
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -20,6 +23,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _handleResetPassword() async {
+    if (_formKey.currentState!.validate()) {
+      // Panggil API untuk melakukan reset password
+      final res = await http.post(
+        Uri.parse('http://192.168.1.3:8000/api/reset-password'),
+        body: {
+          'email': widget.email,
+          'password': _passwordController.text,
+        },
+      );
+
+      if (res.statusCode == 200) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PasswordResetSuccessScreen(),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Reset password gagal.')),
+        );
+      }
+    }
   }
 
   @override
@@ -85,24 +114,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Logika untuk menyimpan kata sandi baru di sini
-                    // ...
-
-                    // Navigasi ke layar sukses
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const PasswordResetSuccessScreen(),
-                      ),
-                    );
-                  }
-                },
+                onPressed: _handleResetPassword,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(
-                      230, 131, 43, 1), // Warna RGB(230, 131, 43)
+                  backgroundColor: const Color.fromRGBO(230, 131, 43, 1),
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 child: const Text(
